@@ -8,23 +8,37 @@ package proyecto;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 
 /**
  *
@@ -32,16 +46,13 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class LogInFrame extends javax.swing.JFrame {
 
-    Icon[] imagen = new ImageIcon[10];
-    int contadorImagenes = 0;
-    int contador = 1;
-
     /**
      * Creates new formf LogInFrame
      */
     public LogInFrame() {
         initComponents();
         hasMessages = false;
+        songs = null;
         myMessages.clear();
 
         for (int i = 2; i <= 11; i++) {
@@ -49,6 +60,13 @@ public class LogInFrame extends javax.swing.JFrame {
             imagen[contadorImagenes] = new ImageIcon("/visorImagenes/image" + i + ".jpg");
             contadorImagenes++;
         }
+
+        songs = new File[musicFolder.listFiles().length];
+        musicFolder = new File(".//src//songsList");
+        for (int i = 0; i < musicFolder.listFiles().length; i++) {
+            songs[i] = musicFolder.listFiles()[i];
+        }
+        r = new Random(songs.length - 1);
         //ImageViewer.setIcon(imagen[0]);
         ImageViewer.setIcon(new ImageIcon(getClass().getResource(imagen[0].toString())));
 
@@ -112,6 +130,17 @@ public class LogInFrame extends javax.swing.JFrame {
         jb_next = new javax.swing.JButton();
         Consola = new javax.swing.JDialog();
         MusicPlayer = new javax.swing.JDialog();
+        pb_songLength = new javax.swing.JProgressBar();
+        tf_songName = new javax.swing.JTextField();
+        jb_pause = new javax.swing.JButton();
+        jb_stop = new javax.swing.JButton();
+        jb_play = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jt_songDisplay = new javax.swing.JTable();
         Calendario = new javax.swing.JDialog();
         Mensajero = new javax.swing.JDialog();
         jLabel13 = new javax.swing.JLabel();
@@ -436,15 +465,144 @@ public class LogInFrame extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
+        pb_songLength.setString(Integer.toString(pb_songLength.getValue()));
+        pb_songLength.setStringPainted(true);
+
+        tf_songName.setEditable(false);
+        tf_songName.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+
+        jb_pause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/pause.png"))); // NOI18N
+        jb_pause.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jb_pauseMouseReleased(evt);
+            }
+        });
+
+        jb_stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/stop.png"))); // NOI18N
+        jb_stop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_stopMouseClicked(evt);
+            }
+        });
+
+        jb_play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/play.png"))); // NOI18N
+        jb_play.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jb_playMouseReleased(evt);
+            }
+        });
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/shuffle.png"))); // NOI18N
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
+
+        jButton7.setText("Next");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
+
+        jButton8.setText("Previous");
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton8MouseClicked(evt);
+            }
+        });
+
+        jButton9.setText("Choose");
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton9MouseClicked(evt);
+            }
+        });
+
+        jt_songDisplay.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Titulo", "Artista"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jt_songDisplay);
+
         javax.swing.GroupLayout MusicPlayerLayout = new javax.swing.GroupLayout(MusicPlayer.getContentPane());
         MusicPlayer.getContentPane().setLayout(MusicPlayerLayout);
         MusicPlayerLayout.setHorizontalGroup(
             MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(MusicPlayerLayout.createSequentialGroup()
+                .addGap(262, 262, 262)
+                .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MusicPlayerLayout.createSequentialGroup()
+                        .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(MusicPlayerLayout.createSequentialGroup()
+                                .addGap(201, 201, 201)
+                                .addComponent(jb_stop)
+                                .addGap(47, 47, 47)
+                                .addComponent(jb_pause, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(jb_play))
+                            .addGroup(MusicPlayerLayout.createSequentialGroup()
+                                .addGap(200, 200, 200)
+                                .addComponent(jButton8)
+                                .addGap(43, 43, 43)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MusicPlayerLayout.createSequentialGroup()
+                        .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pb_songLength, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tf_songName)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE))
+                        .addGap(39, 39, 39)
+                        .addComponent(jButton9)
+                        .addGap(91, 91, 91))))
         );
         MusicPlayerLayout.setVerticalGroup(
             MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(MusicPlayerLayout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(pb_songLength, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(tf_songName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jb_play)
+                    .addComponent(jb_pause)
+                    .addComponent(jb_stop))
+                .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MusicPlayerLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MusicPlayerLayout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addComponent(jButton9)))
+                .addGap(18, 18, 18)
+                .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout CalendarioLayout = new javax.swing.GroupLayout(Calendario.getContentPane());
@@ -741,7 +899,7 @@ public class LogInFrame extends javax.swing.JFrame {
                                             JOptionPane.showMessageDialog(this, currentUser.getName() + " ,tiene mensajes nuevos! Ingrese a la aplicacion de mensajes"
                                                     + "para poder observarlos");
                                             //jl_newMessages.setVisible(true);
-                                        } else if(!messageLoaded.get(i).getUsusarioDestino().equalsIgnoreCase(currentUser.getName()) && !messageLoaded.get(i).isRead()) {
+                                        } else if (!messageLoaded.get(i).getUsusarioDestino().equalsIgnoreCase(currentUser.getName()) && !messageLoaded.get(i).isRead()) {
                                             System.out.println("no tiene mensajes nuevos");
                                             hasMessages = false;
                                             myMessages.clear();
@@ -912,6 +1070,14 @@ public class LogInFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_cmdMouseClicked
 
     private void jb_playerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_playerMouseClicked
+        //rellenar text area del player con las canciones
+        DefaultTableModel model = (DefaultTableModel) jt_songDisplay.getModel();
+        for (int i = 0; i < songs.length; i++) {
+            String[] completeSongName = songs[i].getName().split("-");//contiene artista y titulo
+            String artist = completeSongName[0];
+            completeSongName[1] = completeSongName[1].replaceAll(".mp3", "");
+            model.addRow(completeSongName);
+        }
         openDialog(MusicPlayer);
     }//GEN-LAST:event_jb_playerMouseClicked
 
@@ -1320,6 +1486,104 @@ public class LogInFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4MouseClicked
 
+    private void jb_stopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_stopMouseClicked
+        music.Stop();
+    }//GEN-LAST:event_jb_stopMouseClicked
+
+    private void jb_pauseMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_pauseMouseReleased
+        music.Pause();
+        hasPaused = true;
+    }//GEN-LAST:event_jb_pauseMouseReleased
+
+    private void jb_playMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_playMouseReleased
+        if (jt_songDisplay.getSelectedRow() >= 0 && !hasPaused) {
+            selectedRow = jt_songDisplay.getSelectedRow();
+            music.Stop();
+            File myFile = songs[jt_songDisplay.getSelectedRow()];
+            String song = myFile + "";
+            Object artistName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 0);
+            Object titleName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 1);
+            tf_songName.setText(artistName.toString() + " - " + titleName.toString());
+            music.Play(song);
+           // music.refreshProgressBar(pb_songLength);
+        } else {
+            selectedRow = jt_songDisplay.getSelectedRow();
+            hasPaused = false;
+            music.Resume();
+        }
+    }//GEN-LAST:event_jb_playMouseReleased
+
+    private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
+        FileFilter filter = new FileNameExtensionFilter("MP3 Files", "mp3");
+
+        JFileChooser selection = new JFileChooser("C:\\Users\\Diego\\Music\\Music");
+        selection.addChoosableFileFilter(filter);
+
+        int returnVal = selection.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            music.Stop();
+            File myFile = selection.getSelectedFile();
+            String song = myFile + "";
+
+            String name = selection.getSelectedFile().getName();
+            tf_songName.setText(name);
+
+            music.Play(song);
+           // music.refreshProgressBar(pb_songLength);
+        }
+    }//GEN-LAST:event_jButton9MouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        music.Stop();
+        File myFile;
+        if (jt_songDisplay.getSelectedRow() == songs.length - 1) {
+            jt_songDisplay.setRowSelectionInterval(0, 0);
+            myFile = songs[0];
+        } else {
+            jt_songDisplay.setRowSelectionInterval(jt_songDisplay.getSelectedRow() + 1, jt_songDisplay.getSelectedRow() + 1);
+            myFile = songs[jt_songDisplay.getSelectedRow()];
+        }
+        String song = myFile + "";
+        Object artistName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 0);
+        Object titleName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 1);
+        tf_songName.setText(artistName.toString() + " - " + titleName.toString());
+        music.Play(song);
+        //music.refreshProgressBar(pb_songLength);
+    }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        music.Stop();
+        File myFile;
+        if (jt_songDisplay.getSelectedRow() == 0) {
+            jt_songDisplay.setRowSelectionInterval(songs.length - 1, songs.length - 1);
+            myFile = songs[songs.length - 1];
+        } else {
+            jt_songDisplay.setRowSelectionInterval(jt_songDisplay.getSelectedRow() - 1, jt_songDisplay.getSelectedRow() - 1);
+            myFile = songs[jt_songDisplay.getSelectedRow()];
+        }
+        String song = myFile + "";
+        Object artistName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 0);
+        Object titleName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 1);
+        tf_songName.setText(artistName.toString() + " - " + titleName.toString());
+        music.Play(song);
+        //music.refreshProgressBar(pb_songLength);
+    }//GEN-LAST:event_jButton8MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        music.Stop();
+        int selectedRandom = r.nextInt((songs.length - 1) - 0 + 1) + 0;
+        File myFile;
+        jt_songDisplay.setRowSelectionInterval(selectedRandom, selectedRandom);
+        myFile = songs[selectedRandom];
+        String song = myFile + "";
+        Object artistName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 0);
+        Object titleName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 1);
+        tf_songName.setText(artistName.toString() + " - " + titleName.toString());
+        music.Play(song);
+        //music.refreshProgressBar(pb_songLength);
+    }//GEN-LAST:event_jButton6MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1371,6 +1635,10 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1395,6 +1663,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jb_anterior;
     private javax.swing.JButton jb_cmd;
     private javax.swing.JButton jb_crear;
@@ -1403,13 +1672,19 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JButton jb_exit;
     private javax.swing.JButton jb_logIn;
     private javax.swing.JButton jb_next;
+    private javax.swing.JButton jb_pause;
+    private javax.swing.JButton jb_play;
     private javax.swing.JButton jb_player;
+    private javax.swing.JButton jb_stop;
     private javax.swing.JButton jb_userCreated;
     private javax.swing.JButton jb_visor;
     private javax.swing.JTree jt_fileSystem;
+    private javax.swing.JTable jt_songDisplay;
+    private javax.swing.JProgressBar pb_songLength;
     private javax.swing.JPasswordField pf_password;
     private javax.swing.JPasswordField pf_passwordCreated;
     private javax.swing.JTextArea ta_mensaje;
+    public static javax.swing.JTextField tf_songName;
     private javax.swing.JTextField tf_user;
     private javax.swing.JTextField tf_userCreated;
     private javax.swing.JDialog visorImagenes;
@@ -1429,6 +1704,21 @@ public class LogInFrame extends javax.swing.JFrame {
     User currentUser;
     File messageFile = new File("./mensajes.cbm");
 
+    Music music = new Music();
+    Icon[] imagen = new ImageIcon[10];
+    int contadorImagenes = 0;
+    int contador = 1;
+    File musicFolder = new File(".//src//songsList");
+    File[] songs;
+
+    boolean hasPaused = false;
+    int selectedRow;
+    int songStep = 0;
+
+    Player player;
+
+    Random r;
+
     public void openDialog(JDialog Dialog) {
 
         Dialog.setModal(true);
@@ -1436,5 +1726,4 @@ public class LogInFrame extends javax.swing.JFrame {
         Dialog.pack();
         Dialog.setVisible(true);
     }
-
 }
