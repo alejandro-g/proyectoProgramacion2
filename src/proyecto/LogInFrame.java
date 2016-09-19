@@ -28,6 +28,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -51,6 +53,10 @@ public class LogInFrame extends javax.swing.JFrame {
      */
     public LogInFrame() {
         initComponents();
+        js_recordatorio.setVisible(false);
+        cb_recordarme.setSelected(false);
+        jl_minutosAntes.setVisible(false);
+
         hasMessages = false;
         songs = null;
         myMessages.clear();
@@ -74,20 +80,20 @@ public class LogInFrame extends javax.swing.JFrame {
         //*****************************************************************//
         //escritura de admin **debe hacerse solo una vez
         /*User adminUser = new User("admin", "admin", "admin");
-        try {
-            fw = new FileOutputStream(usersFile);
-            bw = new ObjectOutputStream(fw);
-            bw.writeObject(adminUser);
-            bw.flush();
-        } catch (Exception e) {
-        } finally {
-            try {
-                bw.close();
-                fw.close();
-            } catch (Exception e) {
-            }
-        }
-        System.out.println("se escribio admin");*/
+         try {
+         fw = new FileOutputStream(usersFile);
+         bw = new ObjectOutputStream(fw);
+         bw.writeObject(adminUser);
+         bw.flush();
+         } catch (Exception e) {
+         } finally {
+         try {
+         bw.close();
+         fw.close();
+         } catch (Exception e) {
+         }
+         }
+         System.out.println("se escribio admin");*/
         //*****************************************************************//
     }
 
@@ -142,10 +148,39 @@ public class LogInFrame extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jt_songDisplay = new javax.swing.JTable();
         Calendario = new javax.swing.JDialog();
+        jc_calendario = new com.toedter.calendar.JCalendar();
+        jLabel16 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel4 = new javax.swing.JPanel();
+        js_horaInicio = new javax.swing.JSpinner();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        js_horaFin = new javax.swing.JSpinner();
+        jButton10 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ta_contenidoTarea = new javax.swing.JTextArea();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        ta_nota = new javax.swing.JTextArea();
+        jLabel20 = new javax.swing.JLabel();
+        tf_tituloActividad = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        cb_recordarme = new javax.swing.JCheckBox();
+        js_recordatorio = new javax.swing.JSpinner();
+        jl_minutosAntes = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jt_tablaActividades = new javax.swing.JTable();
+        jButton13 = new javax.swing.JButton();
+        jLabel29 = new javax.swing.JLabel();
+        js_minutosRecordatorio = new javax.swing.JSpinner();
+        jLabel30 = new javax.swing.JLabel();
         Mensajero = new javax.swing.JDialog();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        cb_usuarios = new javax.swing.JComboBox<>();
+        cb_usuarios = new javax.swing.JComboBox<String>();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ta_mensaje = new javax.swing.JTextArea();
@@ -153,7 +188,24 @@ public class LogInFrame extends javax.swing.JFrame {
         Documents = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_fileSystem = new javax.swing.JTree();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
+        detallesEvento = new javax.swing.JDialog();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        tf_detallesHoraInicio = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        tf_detallesHoraFin = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        jButton14 = new javax.swing.JButton();
+        detallesTarea = new javax.swing.JDialog();
+        jLabel27 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jt_tablaDetallesNotas = new javax.swing.JTable();
+        jLabel28 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        ta_detallesContenidoNota = new javax.swing.JTextArea();
+        jButton15 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tf_user = new javax.swing.JTextField();
@@ -605,15 +657,261 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addContainerGap(97, Short.MAX_VALUE))
         );
 
+        jLabel16.setText("Seleccione la fecha para la cual desea crear una actividad");
+
+        js_horaInicio.setModel(new javax.swing.SpinnerNumberModel(1, 1, 24, 1));
+
+        jLabel17.setText("Hora de Inicio: (1 - 24)");
+
+        jLabel18.setText("Hora de Finalizacion: (1 - 24)");
+
+        js_horaFin.setModel(new javax.swing.SpinnerNumberModel(1, 1, 24, 1));
+
+        jButton10.setText("Agregar Evento");
+        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton10MouseClicked(evt);
+            }
+        });
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(js_horaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(js_horaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(507, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(js_horaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(js_horaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Es Evento", jPanel4);
+
+        jLabel19.setText("Contenido:");
+
+        ta_contenidoTarea.setColumns(20);
+        ta_contenidoTarea.setRows(5);
+        jScrollPane3.setViewportView(ta_contenidoTarea);
+
+        jButton11.setText("Agregar Tarea");
+        jButton11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton11MouseClicked(evt);
+            }
+        });
+
+        jButton12.setText("Agregar Notas a Esta Tarea");
+        jButton12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton12MouseClicked(evt);
+            }
+        });
+
+        ta_nota.setColumns(20);
+        ta_nota.setRows(5);
+        jScrollPane6.setViewportView(ta_nota);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(49, 49, 49)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton12)
+                                .addGap(88, 88, 88)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton12)
+                        .addGap(2, 2, 2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Es Tarea", jPanel5);
+
+        jLabel20.setText("Titulo de la Actividad:");
+
+        jLabel21.setText("Esta Actividad ...");
+
+        cb_recordarme.setText("Recordarme ...");
+        cb_recordarme.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cb_recordarmeMouseClicked(evt);
+            }
+        });
+
+        jl_minutosAntes.setText("Minutos antes");
+
+        jt_tablaActividades.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Fecha", "Titulo", "Tiene Recordatorio"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(jt_tablaActividades);
+        if (jt_tablaActividades.getColumnModel().getColumnCount() > 0) {
+            jt_tablaActividades.getColumnModel().getColumn(0).setResizable(false);
+            jt_tablaActividades.getColumnModel().getColumn(1).setResizable(false);
+            jt_tablaActividades.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jButton13.setText("Ver detalle de la actividad seleccionada");
+        jButton13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton13MouseClicked(evt);
+            }
+        });
+
+        jLabel29.setText("Recordarme en esta hora,  ");
+
+        jLabel30.setText("Minutos");
+
         javax.swing.GroupLayout CalendarioLayout = new javax.swing.GroupLayout(Calendario.getContentPane());
         Calendario.getContentPane().setLayout(CalendarioLayout);
         CalendarioLayout.setHorizontalGroup(
             CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(CalendarioLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CalendarioLayout.createSequentialGroup()
+                        .addComponent(jLabel21)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1)
+                    .addGroup(CalendarioLayout.createSequentialGroup()
+                        .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jc_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(CalendarioLayout.createSequentialGroup()
+                                .addComponent(cb_recordarme)
+                                .addGap(18, 18, 18)
+                                .addComponent(js_recordatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jl_minutosAntes))
+                            .addComponent(jLabel16)
+                            .addGroup(CalendarioLayout.createSequentialGroup()
+                                .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel20)
+                                    .addComponent(jLabel29))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tf_tituloActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(CalendarioLayout.createSequentialGroup()
+                                        .addComponent(js_minutosRecordatorio)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel30)
+                                        .addGap(100, 100, 100)))))
+                        .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(CalendarioLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CalendarioLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton13)
+                                .addGap(87, 87, 87)))))
+                .addContainerGap())
         );
         CalendarioLayout.setVerticalGroup(
             CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(CalendarioLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CalendarioLayout.createSequentialGroup()
+                        .addComponent(jc_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel20)
+                            .addComponent(tf_tituloActividad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel29)
+                            .addComponent(js_minutosRecordatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CalendarioLayout.createSequentialGroup()
+                        .addComponent(jButton13)
+                        .addGap(61, 61, 61))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CalendarioLayout.createSequentialGroup()
+                        .addGroup(CalendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cb_recordarme)
+                            .addComponent(js_recordatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jl_minutosAntes))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel21)))
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(158, 158, 158))
         );
 
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -702,7 +1000,167 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel22.setText("Detalles del Evento");
+
+        jLabel23.setText("Hora de Inicio:");
+
+        jLabel24.setText("hrs");
+
+        jLabel25.setText("Hora de Fin:");
+
+        jLabel26.setText("hrs");
+
+        jButton14.setText("Cerrar");
+        jButton14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton14MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout detallesEventoLayout = new javax.swing.GroupLayout(detallesEvento.getContentPane());
+        detallesEvento.getContentPane().setLayout(detallesEventoLayout);
+        detallesEventoLayout.setHorizontalGroup(
+            detallesEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(detallesEventoLayout.createSequentialGroup()
+                .addGap(334, 334, 334)
+                .addComponent(jLabel22)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detallesEventoLayout.createSequentialGroup()
+                .addContainerGap(277, Short.MAX_VALUE)
+                .addGroup(detallesEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detallesEventoLayout.createSequentialGroup()
+                        .addGroup(detallesEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
+                            .addGroup(detallesEventoLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel25)))
+                        .addGap(31, 31, 31)
+                        .addGroup(detallesEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tf_detallesHoraInicio)
+                            .addComponent(tf_detallesHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(detallesEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel26))
+                        .addGap(273, 273, 273))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detallesEventoLayout.createSequentialGroup()
+                        .addComponent(jButton14)
+                        .addGap(343, 343, 343))))
+        );
+        detallesEventoLayout.setVerticalGroup(
+            detallesEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(detallesEventoLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel22)
+                .addGap(33, 33, 33)
+                .addGroup(detallesEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_detallesHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(detallesEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(tf_detallesHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addComponent(jButton14)
+                .addContainerGap())
+        );
+
+        jLabel27.setText("Detalles de la Tarea");
+
+        jt_tablaDetallesNotas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Numero", "Contenido"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jt_tablaDetallesNotas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_tablaDetallesNotasMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(jt_tablaDetallesNotas);
+        if (jt_tablaDetallesNotas.getColumnModel().getColumnCount() > 0) {
+            jt_tablaDetallesNotas.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        jLabel28.setText("Estas son las notas para la tarea seleccionada. Seleccione una nota de la tabla para poder ver su contenido abajo.");
+
+        ta_detallesContenidoNota.setColumns(20);
+        ta_detallesContenidoNota.setRows(5);
+        ta_detallesContenidoNota.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ta_detallesContenidoNotaMouseClicked(evt);
+            }
+        });
+        jScrollPane8.setViewportView(ta_detallesContenidoNota);
+
+        jButton15.setText("Cerrar");
+        jButton15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton15MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout detallesTareaLayout = new javax.swing.GroupLayout(detallesTarea.getContentPane());
+        detallesTarea.getContentPane().setLayout(detallesTareaLayout);
+        detallesTareaLayout.setHorizontalGroup(
+            detallesTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(detallesTareaLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(detallesTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane7)
+                    .addComponent(jScrollPane8)
+                    .addGroup(detallesTareaLayout.createSequentialGroup()
+                        .addGroup(detallesTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(detallesTareaLayout.createSequentialGroup()
+                                .addGap(293, 293, 293)
+                                .addComponent(jLabel27))
+                            .addComponent(jLabel28))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addComponent(jButton15)
+                        .addGap(12, 12, 12)))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        detallesTareaLayout.setVerticalGroup(
+            detallesTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(detallesTareaLayout.createSequentialGroup()
+                .addGroup(detallesTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(detallesTareaLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel27)
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detallesTareaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton15)
+                        .addGap(17, 17, 17)))
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1082,6 +1540,42 @@ public class LogInFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_playerMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        //cargar las actividades que le pertencen a ese usuario solamente
+        ArrayList<Actividad> actividades = new ArrayList();
+        try {
+            Actividad temp;
+            if (activitiesFile.exists()) {
+                try {
+                    entrada = new FileInputStream(activitiesFile);
+                    objeto = new ObjectInputStream(entrada);
+                    while ((temp = (Actividad) objeto.readObject()) != null) {
+                        actividades.add(temp);
+                    }
+                } catch (EOFException e) {
+                    //econtro el final del archivo
+                } finally {
+                    objeto.close();
+                    entrada.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) jt_tablaActividades.getModel();
+        /*LIMPIAR TABLA*/
+        modeloTabla.setRowCount(0);
+        /*RELLENAR TABLA CON LAS ACTIVIDADES QUE LE PERTENECEN AL USUARIO*/
+        for (int i = 0; i < actividades.size(); i++) {
+            if (actividades.get(i).getUsuarioDueno().getName().equals(currentUser.getName())) {
+                System.out.println("Actividades de " + currentUser.getName());
+                Object[] row = new Object[3];
+                row[0] = actividades.get(i).getFecha();
+                row[1] = actividades.get(i).getTitulo();
+                row[2] = actividades.get(i).isRecordarme();
+                modeloTabla.addRow(row);
+            }
+        }
         openDialog(Calendario);
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -1505,7 +1999,7 @@ public class LogInFrame extends javax.swing.JFrame {
             Object titleName = jt_songDisplay.getValueAt(jt_songDisplay.getSelectedRow(), 1);
             tf_songName.setText(artistName.toString() + " - " + titleName.toString());
             music.Play(song);
-           // music.refreshProgressBar(pb_songLength);
+            // music.refreshProgressBar(pb_songLength);
         } else {
             selectedRow = jt_songDisplay.getSelectedRow();
             hasPaused = false;
@@ -1530,7 +2024,7 @@ public class LogInFrame extends javax.swing.JFrame {
             tf_songName.setText(name);
 
             music.Play(song);
-           // music.refreshProgressBar(pb_songLength);
+            // music.refreshProgressBar(pb_songLength);
         }
     }//GEN-LAST:event_jButton9MouseClicked
 
@@ -1584,6 +2078,293 @@ public class LogInFrame extends javax.swing.JFrame {
         //music.refreshProgressBar(pb_songLength);
     }//GEN-LAST:event_jButton6MouseClicked
 
+    private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
+        Date fechaSeleccionada = jc_calendario.getCalendar().getTime();
+        String tituloActividad = tf_tituloActividad.getText();
+        int horaInicio = (int) js_horaInicio.getValue();
+        int horaFin = (int) js_horaFin.getValue();
+        int recordatorio = 0;
+        boolean recordarme = false;
+        if (cb_recordarme.isSelected()) {
+            recordarme = true;
+            recordatorio = (int) js_recordatorio.getValue();
+        } else {
+            recordarme = false;
+        }
+
+        if (tituloActividad.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe Ingresar un titulo para la actividad!");
+        } else {
+
+            /*LEER ARCHIVO DE ACTIVIDADES Y CARGARLO AL ARRAYLIST*/
+            ArrayList<Actividad> actividades = new ArrayList();
+            try {
+                Actividad temp;
+                if (activitiesFile.exists()) {
+                    try {
+                        entrada = new FileInputStream(activitiesFile);
+                        objeto = new ObjectInputStream(entrada);
+                        while ((temp = (Actividad) objeto.readObject()) != null) {
+                            actividades.add(temp);
+                        }
+                    } catch (EOFException e) {
+                        //econtro el final del archivo
+                    } finally {
+                        objeto.close();
+                        entrada.close();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            /*AGREGAR NUEVA ACTIVIDAD AL ARRAYLIST*/
+            actividades.add(new Evento(horaInicio, horaFin, fechaSeleccionada, tituloActividad, recordatorio, recordarme, currentUser));
+            /*ESCRIBIR TODO EL ARRAYLIST EN EL ARCHIVO*/
+            try {
+                fw = new FileOutputStream(activitiesFile);
+                bw = new ObjectOutputStream(fw);
+                for (int i = 0; i < actividades.size(); i++) {
+                    bw.writeObject(actividades.get(i));
+                }
+                bw.flush();
+            } catch (Exception e) {
+            } finally {
+                try {
+                    bw.close();
+                    fw.close();
+                    JOptionPane.showMessageDialog(this, "Se ha agregado el evento exitosamente!");
+                    tf_tituloActividad.setText("");
+                    js_horaInicio.setValue(1);
+                    js_horaFin.setValue(1);
+                    cb_recordarme.setSelected(false);
+                    js_recordatorio.setVisible(false);
+                    jl_minutosAntes.setVisible(false);
+                    ta_contenidoTarea.setText("");
+
+                    DefaultTableModel modeloTabla = (DefaultTableModel) jt_tablaActividades.getModel();
+                    /*LIMPIAR TABLA*/
+                    modeloTabla.setRowCount(0);
+                    /*RELLENAR TABLA CON LAS ACTIVIDADES QUE LE PERTENECEN AL USUARIO*/
+                    for (int i = 0; i < actividades.size(); i++) {
+                        if (actividades.get(i).getUsuarioDueno().getName().equals(currentUser.getName())) {
+                            Object[] row = new Object[3];
+                            row[0] = actividades.get(i).getFecha();
+                            row[1] = actividades.get(i).getTitulo();
+                            row[2] = actividades.get(i).isRecordarme();
+                            modeloTabla.addRow(row);
+                        }
+                    }
+                } catch (Exception e) {
+                }
+            }
+            if (actividades.get(actividades.size() - 1).isRecordarme()) {
+                /*Iniciar hilo*/
+                hiloRecordatorio hilo = new hiloRecordatorio(true, actividades.get(actividades.size() - 1).getRecordatorio(),
+                        actividades.get(actividades.size() - 1).getFecha(), actividades.get(actividades.size() - 1).getTitulo(), (int) js_minutosRecordatorio.getValue());
+                hilo.start();
+            }
+            /*LIMPIAR CAMPOS DEL DIALOG*/
+        }
+
+    }//GEN-LAST:event_jButton10MouseClicked
+
+    private void cb_recordarmeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cb_recordarmeMouseClicked
+        if (cb_recordarme.isSelected()) {
+            js_recordatorio.setVisible(true);
+            jl_minutosAntes.setVisible(true);
+        } else {
+            js_recordatorio.setVisible(false);
+            jl_minutosAntes.setVisible(false);
+        }
+    }//GEN-LAST:event_cb_recordarmeMouseClicked
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseClicked
+        String nota = ta_nota.getText();
+        if (nota.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La nota esta vacia!");
+        } else {
+            notas.add(nota);
+            JOptionPane.showMessageDialog(this, "Se ha agregado la nota exitosamente");
+            ta_nota.setText("");
+        }
+    }//GEN-LAST:event_jButton12MouseClicked
+
+    private void jButton11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseClicked
+        //agregar actividad tipo tarea
+        Date fechaSeleccionada = jc_calendario.getCalendar().getTime();
+        String tituloActividad = tf_tituloActividad.getText();
+        String contenido = ta_contenidoTarea.getText();
+        int recordatorio = 0;
+        boolean recordarme = false;
+        if (cb_recordarme.isSelected()) {
+            recordarme = true;
+            recordatorio = (int) js_recordatorio.getValue();
+        } else {
+            recordarme = false;
+        }
+
+        if (tituloActividad.isEmpty() || contenido.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error! No pueden haber campos vacios ");
+        } else {
+
+            /*LEER ARCHIVO DE ACTIVIDADES Y CARGARLO AL ARRAYLIST*/
+            ArrayList<Actividad> actividades = new ArrayList();
+            try {
+                Actividad temp;
+                if (activitiesFile.exists()) {
+                    try {
+                        entrada = new FileInputStream(activitiesFile);
+                        objeto = new ObjectInputStream(entrada);
+                        while ((temp = (Actividad) objeto.readObject()) != null) {
+                            actividades.add(temp);
+                        }
+                    } catch (EOFException e) {
+                        //econtro el final del archivo
+                    } finally {
+                        objeto.close();
+                        entrada.close();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            /*AGREGAR NUEVA ACTIVIDAD AL ARRAYLIST*/
+            Tarea tarea = new Tarea(contenido, notas, fechaSeleccionada, tituloActividad, recordatorio, recordarme, currentUser);
+            tarea.setNotas((ArrayList<String>) notas.clone());
+            actividades.add(tarea);
+            notas.clear();
+            /*ESCRIBIR TODO EL ARRAYLIST EN EL ARCHIVO*/
+            try {
+                fw = new FileOutputStream(activitiesFile);
+                bw = new ObjectOutputStream(fw);
+                for (int i = 0; i < actividades.size(); i++) {
+                    bw.writeObject(actividades.get(i));
+                }
+                bw.flush();
+            } catch (Exception e) {
+            } finally {
+                try {
+                    bw.close();
+                    fw.close();
+                    JOptionPane.showMessageDialog(this, "Se ha agregado la tarea exitosamente!");
+                    tf_tituloActividad.setText("");
+                    js_horaInicio.setValue(1);
+                    js_horaFin.setValue(1);
+                    cb_recordarme.setSelected(false);
+                    js_recordatorio.setVisible(false);
+                    jl_minutosAntes.setVisible(false);
+                    ta_contenidoTarea.setText("");
+
+                    DefaultTableModel modeloTabla = (DefaultTableModel) jt_tablaActividades.getModel();
+                    /*LIMPIAR TABLA*/
+                    modeloTabla.setRowCount(0);
+                    /*RELLENAR TABLA CON LAS ACTIVIDADES QUE LE PERTENECEN AL USUARIO*/
+                    for (int i = 0; i < actividades.size(); i++) {
+                        if (actividades.get(i).getUsuarioDueno().getName().equals(currentUser.getName())) {
+                            Object[] row = new Object[3];
+                            row[0] = actividades.get(i).getFecha();
+                            row[1] = actividades.get(i).getTitulo();
+                            row[2] = actividades.get(i).isRecordarme();
+                            modeloTabla.addRow(row);
+                        }
+                    }
+                } catch (Exception e) {
+                }
+            }
+
+            if (actividades.get(actividades.size() - 1).isRecordarme()) {
+                /*Iniciar hilo*/
+                hiloRecordatorio hilo = new hiloRecordatorio(true, actividades.get(actividades.size() - 1).getRecordatorio(),
+                        actividades.get(actividades.size() - 1).getFecha(), actividades.get(actividades.size() - 1).getTitulo(), (int) js_minutosRecordatorio.getValue());
+                hilo.start();
+            }
+            /*LIMPIAR CAMPOS DEL DIALOG*/
+
+        }
+    }//GEN-LAST:event_jButton11MouseClicked
+
+    private void jButton13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton13MouseClicked
+        //Ver detalle de la actividad seleccionada
+        ArrayList<Actividad> actividades = new ArrayList();
+        try {
+            Actividad temp;
+            if (activitiesFile.exists()) {
+                try {
+                    entrada = new FileInputStream(activitiesFile);
+                    objeto = new ObjectInputStream(entrada);
+                    while ((temp = (Actividad) objeto.readObject()) != null) {
+                        actividades.add(temp);
+                    }
+                } catch (EOFException e) {
+                    //econtro el final del archivo
+                } finally {
+                    objeto.close();
+                    entrada.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) jt_tablaActividades.getModel();
+        if (jt_tablaActividades.getSelectedRow() >= 0) {
+            String titulo = modeloTabla.getValueAt(jt_tablaActividades.getSelectedRow(), 1).toString();
+            for (int i = 0; i < actividades.size(); i++) {
+                if (actividades.get(i).getTitulo().equals(titulo)) {
+                    actividad = actividades.get(i);
+                }
+            }
+
+            if (actividad instanceof Evento) {
+                Evento evento = (Evento) actividad;
+                tf_detallesHoraInicio.setText(evento.getHoraInicio() + "");
+                tf_detallesHoraFin.setText(evento.getHoraFinalizacion() + "");
+                openDialog(detallesEvento);
+            } else if (actividad instanceof Tarea) {
+                DefaultTableModel modeloTablaDetalles = (DefaultTableModel) jt_tablaDetallesNotas.getModel();
+                modeloTablaDetalles.setRowCount(0);
+                Tarea tarea = (Tarea) actividad;
+                for (int i = 0; i < tarea.getNotas().size(); i++) {
+                    Object[] row = new Object[2];
+                    row[0] = i + "";
+                    row[1] = tarea.getNotas().get(i);
+                    modeloTablaDetalles.addRow(row);
+                }
+                openDialog(detallesTarea);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione una actividad de la tabla para poder ver sus detalles!");
+        }
+    }//GEN-LAST:event_jButton13MouseClicked
+
+    private void jButton14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton14MouseClicked
+        detallesEvento.dispose();
+    }//GEN-LAST:event_jButton14MouseClicked
+
+    private void jt_tablaDetallesNotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_tablaDetallesNotasMouseClicked
+        //rellenar text area segun la actividad deseada
+        if (jt_tablaDetallesNotas.getSelectedRow() >= 0) {
+            String contenido = jt_tablaDetallesNotas.getValueAt(jt_tablaDetallesNotas.getSelectedRow(), 1).toString();
+            ta_detallesContenidoNota.setText(contenido);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una de las notas de la tabla!");
+        }
+    }//GEN-LAST:event_jt_tablaDetallesNotasMouseClicked
+
+    private void ta_detallesContenidoNotaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ta_detallesContenidoNotaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ta_detallesContenidoNotaMouseClicked
+
+    private void jButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseClicked
+        ta_detallesContenidoNota.setText("");
+        detallesTarea.dispose();
+    }//GEN-LAST:event_jButton15MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1595,7 +2376,7 @@ public class LogInFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -1629,8 +2410,17 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel ImageViewer;
     private javax.swing.JDialog Mensajero;
     private javax.swing.JDialog MusicPlayer;
+    private javax.swing.JCheckBox cb_recordarme;
     private javax.swing.JComboBox<String> cb_usuarios;
+    private javax.swing.JDialog detallesEvento;
+    private javax.swing.JDialog detallesTarea;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1647,8 +2437,23 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1661,9 +2466,17 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jb_anterior;
     private javax.swing.JButton jb_cmd;
     private javax.swing.JButton jb_crear;
@@ -1678,13 +2491,27 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JButton jb_stop;
     private javax.swing.JButton jb_userCreated;
     private javax.swing.JButton jb_visor;
+    private com.toedter.calendar.JCalendar jc_calendario;
+    private javax.swing.JLabel jl_minutosAntes;
+    private javax.swing.JSpinner js_horaFin;
+    private javax.swing.JSpinner js_horaInicio;
+    private javax.swing.JSpinner js_minutosRecordatorio;
+    private javax.swing.JSpinner js_recordatorio;
     private javax.swing.JTree jt_fileSystem;
     private javax.swing.JTable jt_songDisplay;
+    private javax.swing.JTable jt_tablaActividades;
+    private javax.swing.JTable jt_tablaDetallesNotas;
     private javax.swing.JProgressBar pb_songLength;
     private javax.swing.JPasswordField pf_password;
     private javax.swing.JPasswordField pf_passwordCreated;
+    private javax.swing.JTextArea ta_contenidoTarea;
+    private javax.swing.JTextArea ta_detallesContenidoNota;
     private javax.swing.JTextArea ta_mensaje;
+    private javax.swing.JTextArea ta_nota;
+    private javax.swing.JTextField tf_detallesHoraFin;
+    private javax.swing.JTextField tf_detallesHoraInicio;
     public static javax.swing.JTextField tf_songName;
+    private javax.swing.JTextField tf_tituloActividad;
     private javax.swing.JTextField tf_user;
     private javax.swing.JTextField tf_userCreated;
     private javax.swing.JDialog visorImagenes;
@@ -1703,6 +2530,7 @@ public class LogInFrame extends javax.swing.JFrame {
     File usersFile = new File("./usersFile.cbm");
     User currentUser;
     File messageFile = new File("./mensajes.cbm");
+    File activitiesFile = new File("./actividades.cbm");
 
     Music music = new Music();
     Icon[] imagen = new ImageIcon[10];
@@ -1718,6 +2546,9 @@ public class LogInFrame extends javax.swing.JFrame {
     Player player;
 
     Random r;
+
+    ArrayList<String> notas = new ArrayList();
+    Actividad actividad;
 
     public void openDialog(JDialog Dialog) {
 
