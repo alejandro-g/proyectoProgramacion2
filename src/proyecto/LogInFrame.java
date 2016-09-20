@@ -8,6 +8,8 @@ package proyecto;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.File;
@@ -79,11 +81,55 @@ public class LogInFrame extends javax.swing.JFrame {
         //escritura de archivo
         //*****************************************************************//
         //escritura de admin **debe hacerse solo una vez
-        /*User adminUser = new User("admin", "admin", "admin");
+        /*ArrayList<File> documentsFiles = new ArrayList();
+         documentsFiles.add(new File("doc1"));
+         documentsFiles.add(new File("doc2"));
+         documentsFiles.add(new File("doc3"));
+
+         ArrayList<File> imagesFiles = new ArrayList();
+         imagesFiles.add(new File("img1"));
+         imagesFiles.add(new File("img2"));
+
+         ArrayList<File> musicFiles = new ArrayList();
+         musicFiles.add(new File("song1"));
+         musicFiles.add(new File("song2"));
+         musicFiles.add(new File("song3"));
+         musicFiles.add(new File("song4"));
+
+         ArrayList<File> calendarFiles = new ArrayList();
+
+         ArrayList<File> messagesFiles = new ArrayList();
+         messagesFiles.add(new File("msg1"));
+         messagesFiles.add(new File("msg2"));
+         messagesFiles.add(new File("msg3"));
+
+         ArrayList<File> mailFiles = new ArrayList();
+
+         User createdUser = new User("admin", "admin", "admin");
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mis Documentos"));
+         createdUser.addFilesToFolder(documentsFiles, createdUser.getFolderslist().get(0));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mis Imagenes"));
+         createdUser.addFilesToFolder(imagesFiles, createdUser.getFolderslist().get(1));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mi Musica"));
+         createdUser.addFilesToFolder(musicFiles, createdUser.getFolderslist().get(2));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mi Calendario"));
+         createdUser.addFilesToFolder(calendarFiles, createdUser.getFolderslist().get(3));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mis Mensajes"));
+         createdUser.addFilesToFolder(messagesFiles, createdUser.getFolderslist().get(4));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Envio de Correo"));
+         createdUser.addFilesToFolder(mailFiles, createdUser.getFolderslist().get(5));
+
+         //User adminUser = new User("admin", "admin", "admin");
+         //listaUsuarios.add(createdUser);
          try {
          fw = new FileOutputStream(usersFile);
          bw = new ObjectOutputStream(fw);
-         bw.writeObject(adminUser);
+         bw.writeObject(createdUser);
          bw.flush();
          } catch (Exception e) {
          } finally {
@@ -178,13 +224,23 @@ public class LogInFrame extends javax.swing.JFrame {
         js_minutosRecordatorio = new javax.swing.JSpinner();
         jLabel30 = new javax.swing.JLabel();
         Mensajero = new javax.swing.JDialog();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         cb_usuarios = new javax.swing.JComboBox<String>();
+        jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ta_mensaje = new javax.swing.JTextArea();
         jButton4 = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jButton16 = new javax.swing.JButton();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jt_tablaLeerMensajes = new javax.swing.JTable();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        ta_leerMensajeDetalle = new javax.swing.JTextArea();
         Documents = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_fileSystem = new javax.swing.JTree();
@@ -206,6 +262,10 @@ public class LogInFrame extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         ta_detallesContenidoNota = new javax.swing.JTextArea();
         jButton15 = new javax.swing.JButton();
+        consola = new javax.swing.JDialog();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        ta_workspace = new javax.swing.JTextArea();
+        jButton17 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tf_user = new javax.swing.JTextField();
@@ -932,51 +992,161 @@ public class LogInFrame extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(269, 269, 269)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jLabel15)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(222, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(35, 35, 35)
+                        .addComponent(cb_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(171, 171, 171))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(231, 231, 231))))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                    .addGap(202, 202, 202)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cb_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addGap(107, 107, 107)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(182, 182, 182)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(89, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane2.addTab("Enviar Mensaje", jPanel6);
+
+        jLabel31.setText("Ventana de Mensajes");
+
+        jLabel32.setText("Seleccione un mensaje de la tabla para poder verlo en la parte posterior de la ventana");
+
+        jButton16.setText("Cerrar");
+        jButton16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton16MouseClicked(evt);
+            }
+        });
+
+        jt_tablaLeerMensajes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "De:", "Mensaje"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jt_tablaLeerMensajes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_tablaLeerMensajesMouseClicked(evt);
+            }
+        });
+        jScrollPane9.setViewportView(jt_tablaLeerMensajes);
+        if (jt_tablaLeerMensajes.getColumnModel().getColumnCount() > 0) {
+            jt_tablaLeerMensajes.getColumnModel().getColumn(0).setResizable(false);
+            jt_tablaLeerMensajes.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        ta_leerMensajeDetalle.setColumns(20);
+        ta_leerMensajeDetalle.setRows(5);
+        jScrollPane10.setViewportView(ta_leerMensajeDetalle);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel31)
+                .addGap(330, 330, 330))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel32)
+                        .addGap(108, 108, 108)
+                        .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
+                        .addComponent(jScrollPane10)))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel32)
+                    .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(84, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Ver Mensajes", jPanel7);
+
         javax.swing.GroupLayout MensajeroLayout = new javax.swing.GroupLayout(Mensajero.getContentPane());
         Mensajero.getContentPane().setLayout(MensajeroLayout);
         MensajeroLayout.setHorizontalGroup(
             MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MensajeroLayout.createSequentialGroup()
-                .addContainerGap(115, Short.MAX_VALUE)
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15))
-                .addGap(106, 106, 106)
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cb_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(96, 96, 96))
             .addGroup(MensajeroLayout.createSequentialGroup()
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(287, 287, 287)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(277, 277, 277)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         MensajeroLayout.setVerticalGroup(
             MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MensajeroLayout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel14))
-                    .addComponent(cb_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(jLabel15))
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addGap(20, 20, 20)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
@@ -1159,6 +1329,45 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        consola.setBackground(new java.awt.Color(0, 0, 0));
+
+        ta_workspace.setBackground(new java.awt.Color(0, 0, 0));
+        ta_workspace.setColumns(20);
+        ta_workspace.setForeground(new java.awt.Color(0, 153, 0));
+        ta_workspace.setRows(5);
+        ta_workspace.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ta_workspaceKeyTyped(evt);
+            }
+        });
+        jScrollPane11.setViewportView(ta_workspace);
+
+        jButton17.setText("Ejecutar Comando");
+        jButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton17MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout consolaLayout = new javax.swing.GroupLayout(consola.getContentPane());
+        consola.getContentPane().setLayout(consolaLayout);
+        consolaLayout.setHorizontalGroup(
+            consolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane11)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, consolaLayout.createSequentialGroup()
+                .addContainerGap(318, Short.MAX_VALUE)
+                .addComponent(jButton17)
+                .addGap(271, 271, 271))
+        );
+        consolaLayout.setVerticalGroup(
+            consolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(consolaLayout.createSequentialGroup()
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jButton17)
                 .addContainerGap())
         );
 
@@ -1417,7 +1626,6 @@ public class LogInFrame extends javax.swing.JFrame {
                     entrada = new FileInputStream(usersFile);
                     objeto = new ObjectInputStream(entrada);
                     while ((temp = (User) objeto.readObject()) != null) {
-                        System.out.println("pass");
                         usersList.add(temp);
                     }
                 } catch (EOFException e) {
@@ -1524,7 +1732,39 @@ public class LogInFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_visorMouseClicked
 
     private void jb_cmdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_cmdMouseClicked
-        openDialog(Consola);
+        ArrayList<User> usersList = new ArrayList();
+        try {
+            User temp;
+            if (usersFile.exists()) {
+                try {
+                    entrada = new FileInputStream(usersFile);
+                    objeto = new ObjectInputStream(entrada);
+                    while ((temp = (User) objeto.readObject()) != null) {
+                        usersList.add(temp);
+                    }
+                } catch (EOFException e) {
+                    //econtro el final del archivo
+                } finally {
+                    objeto.close();
+                    entrada.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        User usuarioActual = null;
+
+        for (int i = 0; i < usersList.size(); i++) {
+            if (usersList.get(i).getName().equals(currentUser.getName())) {
+                usuarioActual = usersList.get(i);
+                String userInfo = usersList.get(i).getName();
+                //String currentDirectory = usersList.get(i).getFolderslist().get(0).getName();
+                ta_workspace.setText(userInfo + " @Z:");
+            }
+        }
+
+        openDialog(consola);
     }//GEN-LAST:event_jb_cmdMouseClicked
 
     private void jb_playerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_playerMouseClicked
@@ -1582,6 +1822,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         //**************************MODIFICAR TODOS LOS MENSAJES NO LEIDOS COMO LEIDOS********************************//
         //jl_newNotification.setVisible(false);
+        ta_leerMensajeDetalle.setText("");
         for (int i = 0; i < myMessages.size(); i++) {
             myMessages.get(i).setRead(true);
         }
@@ -1674,6 +1915,39 @@ public class LogInFrame extends javax.swing.JFrame {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cb_usuarios.getModel();
         for (int i = 0; i < usersList.size(); i++) {
             model.addElement(usersList.get(i).getName());
+        }
+
+        /*Obtener de todos los mensajes solo los que le pertenecen a currentUser*/
+        ArrayList<Mensaje> misMensajes = new ArrayList();
+        try {
+            Mensaje temp;
+            if (messageFile.exists()) {
+                try {
+                    entrada = new FileInputStream(messageFile);
+                    objeto = new ObjectInputStream(entrada);
+                    while ((temp = (Mensaje) objeto.readObject()) != null) {
+                        misMensajes.add(temp);
+                    }
+                } catch (EOFException e) {
+                    //econtro el final del archivo
+                } finally {
+                    objeto.close();
+                    entrada.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) jt_tablaLeerMensajes.getModel();
+        modeloTabla.setRowCount(0);
+        for (int i = 0; i < misMensajes.size(); i++) {
+            if (misMensajes.get(i).getUsusarioDestino().equals(currentUser.getName())) {
+                Object[] row = new Object[2];
+                row[0] = misMensajes.get(i).getAutor();
+                row[1] = misMensajes.get(i).getMensaje();
+                modeloTabla.addRow(row);
+            }
         }
 
         openDialog(Mensajero);
@@ -1774,6 +2048,23 @@ public class LogInFrame extends javax.swing.JFrame {
             }
             nodoZ.add(nodo_Mail);
             raiz.add(nodoZ);
+
+            DefaultMutableTreeNode nodo_general = null;
+            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                nodo_general = new DefaultMutableTreeNode(currentUser.getFolderslist().get(i).getName());
+                //if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
+                ArrayList<File> files = new ArrayList();
+                files = currentUser.getFolderslist().get(i).getFilesList();
+                for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
+                    File currentFile = files.get(j);
+                    DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
+                    nodo_general.add(documentsFolderFileNode);
+                }
+                //}
+            }
+            nodoZ.add(nodo_general);
+            raiz.add(nodoZ);
+
             m.reload();
             openDialog(Documents);
             m.removeNodeFromParent(nodoZ);
@@ -1894,6 +2185,30 @@ public class LogInFrame extends javax.swing.JFrame {
                     }
                 }
                 nodoZ.add(nodo_Mail);
+                //usersNodes.add(nodoZ);
+                raiz.add(nodoZ);
+
+                DefaultMutableTreeNode nodo_general = null;
+                System.out.println("naaaaaame: " + user.getName());
+                System.out.println("size isssssss: " + user.getFolderslist().size());
+                for (int i = 0; i < user.getFolderslist().size(); i++) {
+                    System.out.println("go");
+                    nodo_general = new DefaultMutableTreeNode(user.getFolderslist().get(i).getName());
+                    //if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
+                    ArrayList<File> files = new ArrayList();
+                    files = user.getFolderslist().get(i).getFilesList();
+                    DefaultMutableTreeNode documentsFolderFileNode = null;
+                    if (user.getFolderslist().get(i).getFilesList().size() != 0) {
+                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
+                            File currentFile = files.get(j);
+                            documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
+                            nodo_general.add(documentsFolderFileNode);
+                        }
+                        //}
+                    }
+                }
+                nodoZ.add(nodo_general);
+                //raiz.add(nodoZ);
                 usersNodes.add(nodoZ);
                 raiz.add(usersNodes);
             }
@@ -2365,6 +2680,161 @@ public class LogInFrame extends javax.swing.JFrame {
         detallesTarea.dispose();
     }//GEN-LAST:event_jButton15MouseClicked
 
+    private void jButton16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton16MouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) jt_tablaLeerMensajes.getModel();
+        modeloTabla.setRowCount(0);
+        ta_leerMensajeDetalle.setText("");
+    }//GEN-LAST:event_jButton16MouseClicked
+
+    private void jt_tablaLeerMensajesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_tablaLeerMensajesMouseClicked
+        if (jt_tablaLeerMensajes.getSelectedRow() >= 0) {
+            ta_leerMensajeDetalle.setText("");
+            ta_leerMensajeDetalle.setText(jt_tablaLeerMensajes.getValueAt(jt_tablaLeerMensajes.getSelectedRow(), 1).toString());
+        }
+    }//GEN-LAST:event_jt_tablaLeerMensajesMouseClicked
+
+    private void ta_workspaceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ta_workspaceKeyTyped
+        /*if (evt.getKeyCode() == KeyEvent.VK_0) {
+         System.out.println("HERE"); //For sanity check.
+         ta_workspace.setText("BUTTON PRESSED");
+         System.out.println("HERE AGAIN"); //For sanity check
+         }else{
+         System.out.println("nay");
+         }*/
+    }//GEN-LAST:event_ta_workspaceKeyTyped
+
+    private void jButton17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton17MouseClicked
+        ArrayList<String> directoriesArrayList = new ArrayList();
+        String completeCommand = "";
+        String[] command;
+        String argument = "";
+        if (ta_workspace.getText().contains(":")) {
+            command = ta_workspace.getText().split(":");
+            completeCommand = command[1];
+            argument = command[1].split(" ")[1];
+            switch (completeCommand.split(" ")[0]) {
+                case "mkdir":
+                    currentUser.getFolderslist().add(new FolderClass(currentUser.getName(), argument));
+
+                    ArrayList<User> usersList = new ArrayList();
+                    try {
+                        User temp;
+                        if (usersFile.exists()) {
+                            try {
+                                entrada = new FileInputStream(usersFile);
+                                objeto = new ObjectInputStream(entrada);
+                                while ((temp = (User) objeto.readObject()) != null) {
+                                    usersList.add(temp);
+                                }
+                            } catch (EOFException e) {
+                                //econtro el final del archivo
+                            } finally {
+                                objeto.close();
+                                entrada.close();
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < usersList.size(); i++) {
+                        if (usersList.get(i).getName().equals(currentUser.getName())) {
+                            usersList.get(i).setFolderslist(currentUser.getFolderslist());
+                        }
+                    }
+
+                    try {
+                        fw = new FileOutputStream(usersFile);
+                        bw = new ObjectOutputStream(fw);
+                        for (int i = 0; i < usersList.size(); i++) {
+                            bw.writeObject(usersList.get(i));
+                            bw.flush();
+                        }
+                    } catch (Exception e) {
+                    } finally {
+                        try {
+                            bw.close();
+                            fw.close();
+                        } catch (Exception e) {
+                        }
+                    }
+
+                    JOptionPane.showMessageDialog(this, "se ha agregado una nueva carpeta!");
+                    break;
+                case "rm":
+                    for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                        if(currentUser.getFolderslist().get(i).getName().equals(argument)){
+                           currentUser.getFolderslist().remove(currentUser.getFolderslist().get(i));
+                        }
+                    }
+
+                    ArrayList<User> usersList2 = new ArrayList();
+                    try {
+                        User temp;
+                        if (usersFile.exists()) {
+                            try {
+                                entrada = new FileInputStream(usersFile);
+                                objeto = new ObjectInputStream(entrada);
+                                while ((temp = (User) objeto.readObject()) != null) {
+                                    usersList2.add(temp);
+                                }
+                            } catch (EOFException e) {
+                                //econtro el final del archivo
+                            } finally {
+                                objeto.close();
+                                entrada.close();
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < usersList2.size(); i++) {
+                        if (usersList2.get(i).getName().equals(currentUser.getName())) {
+                            usersList2.get(i).setFolderslist(currentUser.getFolderslist());
+                        }
+                    }
+
+                    try {
+                        fw = new FileOutputStream(usersFile);
+                        bw = new ObjectOutputStream(fw);
+                        for (int i = 0; i < usersList2.size(); i++) {
+                            bw.writeObject(usersList2.get(i));
+                            bw.flush();
+                        }
+                    } catch (Exception e) {
+                    } finally {
+                        try {
+                            bw.close();
+                            fw.close();
+                        } catch (Exception e) {
+                        }
+                    }
+                    break;
+                case "cd":
+                    break;
+                case "dir":
+                    break;
+                case "date":
+                    break;
+                case "time":
+                    break;
+
+            }
+        } else if (ta_workspace.getText().contains("/")) {
+            String[] directories = ta_workspace.getText().split("/");
+            String[] firstDirectory = directories[0].split("@");
+            String actualFirstDirectory = firstDirectory[1];
+            directoriesArrayList.add(actualFirstDirectory);
+            for (int i = 0; i < directories.length; i++) {
+                directoriesArrayList.add(directories[i]);
+            }
+        }
+
+        ta_workspace.setText("");
+
+    }//GEN-LAST:event_jButton17MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2412,6 +2882,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JDialog MusicPlayer;
     private javax.swing.JCheckBox cb_recordarme;
     private javax.swing.JComboBox<String> cb_usuarios;
+    private javax.swing.JDialog consola;
     private javax.swing.JDialog detallesEvento;
     private javax.swing.JDialog detallesTarea;
     private javax.swing.JButton jButton1;
@@ -2421,6 +2892,8 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2454,6 +2927,8 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2468,7 +2943,11 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2476,7 +2955,9 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JButton jb_anterior;
     private javax.swing.JButton jb_cmd;
     private javax.swing.JButton jb_crear;
@@ -2501,13 +2982,16 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JTable jt_songDisplay;
     private javax.swing.JTable jt_tablaActividades;
     private javax.swing.JTable jt_tablaDetallesNotas;
+    private javax.swing.JTable jt_tablaLeerMensajes;
     private javax.swing.JProgressBar pb_songLength;
     private javax.swing.JPasswordField pf_password;
     private javax.swing.JPasswordField pf_passwordCreated;
     private javax.swing.JTextArea ta_contenidoTarea;
     private javax.swing.JTextArea ta_detallesContenidoNota;
+    private javax.swing.JTextArea ta_leerMensajeDetalle;
     private javax.swing.JTextArea ta_mensaje;
     private javax.swing.JTextArea ta_nota;
+    private javax.swing.JTextArea ta_workspace;
     private javax.swing.JTextField tf_detallesHoraFin;
     private javax.swing.JTextField tf_detallesHoraInicio;
     public static javax.swing.JTextField tf_songName;
