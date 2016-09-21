@@ -47,6 +47,10 @@ public class FolderClass implements Serializable{
     public void setFilesList(ArrayList<File> filesList) {
         this.filesList = filesList;
     }
+    
+    public void addFolder(FolderClass folder) {
+        this.foldersList.add(folder);
+    }
 
     @Override
     public String toString() {

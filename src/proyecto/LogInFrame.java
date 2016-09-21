@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.File;
@@ -62,6 +64,7 @@ public class LogInFrame extends javax.swing.JFrame {
      */
     public LogInFrame() {
         initComponents();
+        tf_carpetaActual.setText("Mis Documentos");
         js_recordatorio.setVisible(false);
         cb_recordarme.setSelected(false);
         jl_minutosAntes.setVisible(false);
@@ -87,11 +90,55 @@ public class LogInFrame extends javax.swing.JFrame {
         //escritura de archivo
         //*****************************************************************//
         //escritura de admin **debe hacerse solo una vez
-        /*User adminUser = new User("admin", "admin", "admin");
+        /*ArrayList<File> documentsFiles = new ArrayList();
+         documentsFiles.add(new File("doc1"));
+         documentsFiles.add(new File("doc2"));
+         documentsFiles.add(new File("doc3"));
+
+         ArrayList<File> imagesFiles = new ArrayList();
+         imagesFiles.add(new File("img1"));
+         imagesFiles.add(new File("img2"));
+
+         ArrayList<File> musicFiles = new ArrayList();
+         musicFiles.add(new File("song1"));
+         musicFiles.add(new File("song2"));
+         musicFiles.add(new File("song3"));
+         musicFiles.add(new File("song4"));
+
+         ArrayList<File> calendarFiles = new ArrayList();
+
+         ArrayList<File> messagesFiles = new ArrayList();
+         messagesFiles.add(new File("msg1"));
+         messagesFiles.add(new File("msg2"));
+         messagesFiles.add(new File("msg3"));
+
+         ArrayList<File> mailFiles = new ArrayList();
+
+         User createdUser = new User("admin", "admin", "admin");
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mis Documentos"));
+         createdUser.addFilesToFolder(documentsFiles, createdUser.getFolderslist().get(0));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mis Imagenes"));
+         createdUser.addFilesToFolder(imagesFiles, createdUser.getFolderslist().get(1));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mi Musica"));
+         createdUser.addFilesToFolder(musicFiles, createdUser.getFolderslist().get(2));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mi Calendario"));
+         createdUser.addFilesToFolder(calendarFiles, createdUser.getFolderslist().get(3));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Mis Mensajes"));
+         createdUser.addFilesToFolder(messagesFiles, createdUser.getFolderslist().get(4));
+
+         createdUser.addFolderToFolderList(new FolderClass(createdUser.getName(), "Envio de Correo"));
+         createdUser.addFilesToFolder(mailFiles, createdUser.getFolderslist().get(5));
+
+         //User adminUser = new User("admin", "admin", "admin");
+         //listaUsuarios.add(createdUser);
          try {
          fw = new FileOutputStream(usersFile);
          bw = new ObjectOutputStream(fw);
-         bw.writeObject(adminUser);
+         bw.writeObject(createdUser);
          bw.flush();
          } catch (Exception e) {
          } finally {
@@ -201,13 +248,23 @@ public class LogInFrame extends javax.swing.JFrame {
         js_minutosRecordatorio = new javax.swing.JSpinner();
         jLabel30 = new javax.swing.JLabel();
         Mensajero = new javax.swing.JDialog();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         cb_usuarios = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ta_mensaje = new javax.swing.JTextArea();
         jButton4 = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jButton16 = new javax.swing.JButton();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        jt_tablaLeerMensajes = new javax.swing.JTable();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        ta_leerMensajeDetalle = new javax.swing.JTextArea();
         Documents = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_fileSystem = new javax.swing.JTree();
@@ -229,6 +286,12 @@ public class LogInFrame extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         ta_detallesContenidoNota = new javax.swing.JTextArea();
         jButton15 = new javax.swing.JButton();
+        consola = new javax.swing.JDialog();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        ta_workspace = new javax.swing.JTextArea();
+        jButton17 = new javax.swing.JButton();
+        jLabel33 = new javax.swing.JLabel();
+        tf_carpetaActual = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tf_user = new javax.swing.JTextField();
@@ -253,6 +316,11 @@ public class LogInFrame extends javax.swing.JFrame {
         jb_editor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jb_editorMouseClicked(evt);
+            }
+        });
+        jb_editor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jb_editorActionPerformed(evt);
             }
         });
 
@@ -1103,51 +1171,161 @@ public class LogInFrame extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(269, 269, 269)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jLabel15)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(222, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(35, 35, 35)
+                        .addComponent(cb_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(171, 171, 171))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(231, 231, 231))))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                    .addGap(202, 202, 202)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cb_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addGap(107, 107, 107)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(182, 182, 182)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(89, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane2.addTab("Enviar Mensaje", jPanel6);
+
+        jLabel31.setText("Ventana de Mensajes");
+
+        jLabel32.setText("Seleccione un mensaje de la tabla para poder verlo en la parte posterior de la ventana");
+
+        jButton16.setText("Cerrar");
+        jButton16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton16MouseClicked(evt);
+            }
+        });
+
+        jt_tablaLeerMensajes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "De:", "Mensaje"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jt_tablaLeerMensajes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_tablaLeerMensajesMouseClicked(evt);
+            }
+        });
+        jScrollPane12.setViewportView(jt_tablaLeerMensajes);
+        if (jt_tablaLeerMensajes.getColumnModel().getColumnCount() > 0) {
+            jt_tablaLeerMensajes.getColumnModel().getColumn(0).setResizable(false);
+            jt_tablaLeerMensajes.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        ta_leerMensajeDetalle.setColumns(20);
+        ta_leerMensajeDetalle.setRows(5);
+        jScrollPane10.setViewportView(ta_leerMensajeDetalle);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel31)
+                .addGap(330, 330, 330))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel32)
+                        .addGap(108, 108, 108)
+                        .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
+                        .addComponent(jScrollPane10)))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel32)
+                    .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(84, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Ver Mensajes", jPanel7);
+
         javax.swing.GroupLayout MensajeroLayout = new javax.swing.GroupLayout(Mensajero.getContentPane());
         Mensajero.getContentPane().setLayout(MensajeroLayout);
         MensajeroLayout.setHorizontalGroup(
             MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MensajeroLayout.createSequentialGroup()
-                .addContainerGap(115, Short.MAX_VALUE)
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15))
-                .addGap(106, 106, 106)
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cb_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(96, 96, 96))
             .addGroup(MensajeroLayout.createSequentialGroup()
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(287, 287, 287)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(277, 277, 277)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         MensajeroLayout.setVerticalGroup(
             MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MensajeroLayout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel14))
-                    .addComponent(cb_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(MensajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(jLabel15))
-                    .addGroup(MensajeroLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addGap(20, 20, 20)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         Documents.setTitle("File System");
@@ -1343,6 +1521,57 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        consola.setBackground(new java.awt.Color(0, 0, 0));
+
+        ta_workspace.setBackground(new java.awt.Color(0, 0, 0));
+        ta_workspace.setColumns(20);
+        ta_workspace.setForeground(new java.awt.Color(0, 153, 0));
+        ta_workspace.setRows(5);
+        ta_workspace.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ta_workspaceKeyTyped(evt);
+            }
+        });
+        jScrollPane11.setViewportView(ta_workspace);
+
+        jButton17.setText("Ejecutar Comando");
+        jButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton17MouseClicked(evt);
+            }
+        });
+
+        jLabel33.setText("Carpeta Actual:");
+
+        javax.swing.GroupLayout consolaLayout = new javax.swing.GroupLayout(consola.getContentPane());
+        consola.getContentPane().setLayout(consolaLayout);
+        consolaLayout.setHorizontalGroup(
+            consolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, consolaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton17)
+                .addGap(285, 285, 285))
+            .addGroup(consolaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tf_carpetaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        consolaLayout.setVerticalGroup(
+            consolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(consolaLayout.createSequentialGroup()
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(consolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel33)
+                    .addComponent(tf_carpetaActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addComponent(jButton17)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Log on to Windows");
 
@@ -1498,6 +1727,7 @@ public class LogInFrame extends javax.swing.JFrame {
                                 if (temp.getPassword().equals(password)) {
                                     foundPassword = true;
                                     currentUser = temp;
+                                    folder = new FolderClass(currentUser.getName(), "Mis Documentos");
                                     JOptionPane.showMessageDialog(this, "Bienvenido " + user);
                                     //open desktop JDialog                      
                                     if (currentUser.getType().equalsIgnoreCase("normal")) {
@@ -1597,7 +1827,6 @@ public class LogInFrame extends javax.swing.JFrame {
                     entrada = new FileInputStream(usersFile);
                     objeto = new ObjectInputStream(entrada);
                     while ((temp = (User) objeto.readObject()) != null) {
-                        System.out.println("pass");
                         usersList.add(temp);
                     }
                 } catch (EOFException e) {
@@ -1704,7 +1933,39 @@ public class LogInFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_visorMouseClicked
 
     private void jb_cmdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_cmdMouseClicked
-        openDialog(Consola);
+        ArrayList<User> usersList = new ArrayList();
+        try {
+            User temp;
+            if (usersFile.exists()) {
+                try {
+                    entrada = new FileInputStream(usersFile);
+                    objeto = new ObjectInputStream(entrada);
+                    while ((temp = (User) objeto.readObject()) != null) {
+                        usersList.add(temp);
+                    }
+                } catch (EOFException e) {
+                    //econtro el final del archivo
+                } finally {
+                    objeto.close();
+                    entrada.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        User usuarioActual = null;
+
+        for (int i = 0; i < usersList.size(); i++) {
+            if (usersList.get(i).getName().equals(currentUser.getName())) {
+                usuarioActual = usersList.get(i);
+                String userInfo = usersList.get(i).getName();
+                //String currentDirectory = usersList.get(i).getFolderslist().get(0).getName();
+                ta_workspace.setText(userInfo + " @Z:");
+            }
+        }
+
+        openDialog(consola);
     }//GEN-LAST:event_jb_cmdMouseClicked
 
     private void jb_playerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_playerMouseClicked
@@ -1762,6 +2023,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         //**************************MODIFICAR TODOS LOS MENSAJES NO LEIDOS COMO LEIDOS********************************//
         //jl_newNotification.setVisible(false);
+        ta_leerMensajeDetalle.setText("");
         for (int i = 0; i < myMessages.size(); i++) {
             myMessages.get(i).setRead(true);
         }
@@ -1856,6 +2118,39 @@ public class LogInFrame extends javax.swing.JFrame {
             model.addElement(usersList.get(i).getName());
         }
 
+        /*Obtener de todos los mensajes solo los que le pertenecen a currentUser*/
+        ArrayList<Mensaje> misMensajes = new ArrayList();
+        try {
+            Mensaje temp;
+            if (messageFile.exists()) {
+                try {
+                    entrada = new FileInputStream(messageFile);
+                    objeto = new ObjectInputStream(entrada);
+                    while ((temp = (Mensaje) objeto.readObject()) != null) {
+                        misMensajes.add(temp);
+                    }
+                } catch (EOFException e) {
+                    //econtro el final del archivo
+                } finally {
+                    objeto.close();
+                    entrada.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) jt_tablaLeerMensajes.getModel();
+        modeloTabla.setRowCount(0);
+        for (int i = 0; i < misMensajes.size(); i++) {
+            if (misMensajes.get(i).getUsusarioDestino().equals(currentUser.getName())) {
+                Object[] row = new Object[2];
+                row[0] = misMensajes.get(i).getAutor();
+                row[1] = misMensajes.get(i).getMensaje();
+                modeloTabla.addRow(row);
+            }
+        }
+
         openDialog(Mensajero);
     }//GEN-LAST:event_jButton3MouseClicked
 
@@ -1865,95 +2160,28 @@ public class LogInFrame extends javax.swing.JFrame {
             DefaultTreeModel m = (DefaultTreeModel) jt_fileSystem.getModel();
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) m.getRoot(); //siempre empieza a recorrer desde su nodo raiz, se hace para poder recorrerla
             DefaultMutableTreeNode nodoZ = new DefaultMutableTreeNode("Z:");
-            DefaultMutableTreeNode nodo_Documents = new DefaultMutableTreeNode("Mis Documentos");
+
+            DefaultMutableTreeNode nodo_general = null;
             for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Documentos")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Documents.add(documentsFolderFileNode);
-                    }
+                nodo_general = new DefaultMutableTreeNode(currentUser.getFolderslist().get(i).getName());
+                //if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
+                ArrayList<File> files = new ArrayList();
+                files = currentUser.getFolderslist().get(i).getFilesList();
+                for (int j = 0; j < currentUser.getFolderslist().get(i).getFoldersList().size(); j++) {
+                    //File currentFile = files.get(j);
+                    DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(currentUser.getFolderslist().get(i).getFoldersList().get(j).getName());
+                    nodo_general.add(documentsFolderFileNode);
                 }
+                for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
+                    File currentFile = files.get(j);
+                    DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
+                    nodo_general.add(documentsFolderFileNode);
+                }
+                //}
+                nodoZ.add(nodo_general);
             }
-            nodoZ.add(nodo_Documents);
             raiz.add(nodoZ);
 
-            DefaultMutableTreeNode nodo_Images = new DefaultMutableTreeNode("Mis Imagenes");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Imagenes")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Images.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Images);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Music = new DefaultMutableTreeNode("Mi Musica");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mi Musica")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Music.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Music);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Calendar = new DefaultMutableTreeNode("Mi Calendario");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mi Calendario")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Calendar.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Calendar);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Messages = new DefaultMutableTreeNode("Mis Mensajes");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Mensajes")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Messages.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Messages);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Mail = new DefaultMutableTreeNode("Mi Correo");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Mail.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Mail);
-            raiz.add(nodoZ);
             m.reload();
             openDialog(Documents);
             m.removeNodeFromParent(nodoZ);
@@ -1986,94 +2214,29 @@ public class LogInFrame extends javax.swing.JFrame {
             for (int k = 0; k < usersList.size(); k++) {
                 User user = usersList.get(k);
                 DefaultMutableTreeNode nodoZ = new DefaultMutableTreeNode(user.getName() + "-Z:");
-                DefaultMutableTreeNode nodo_Documents = new DefaultMutableTreeNode("Mis Documentos");
+                DefaultMutableTreeNode nodo_general = null;
                 for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Documentos")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
+                    nodo_general = new DefaultMutableTreeNode(user.getFolderslist().get(i).getName());
+                    //if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
+                    ArrayList<File> files = new ArrayList();
+                    files = user.getFolderslist().get(i).getFilesList();
+                    DefaultMutableTreeNode documentsFolderFileNode = null;
+                    if (user.getFolderslist().get(i).getFilesList().size() != 0) {
+                        for (int j = 0; j < user.getFolderslist().get(i).getFoldersList().size(); j++) {
+                            //File currentFile = files.get(j);
+                            DefaultMutableTreeNode documentsFolderFileNode2 = new DefaultMutableTreeNode(user.getFolderslist().get(i).getFoldersList().get(j).getName());
+                            nodo_general.add(documentsFolderFileNode2);
+                        }
                         for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
                             File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Documents.add(documentsFolderFileNode);
+                            documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
+                            nodo_general.add(documentsFolderFileNode);
                         }
+                        //}
                     }
+                    nodoZ.add(nodo_general);
                 }
-                nodoZ.add(nodo_Documents);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Images = new DefaultMutableTreeNode("Mis Imagenes");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Imagenes")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Images.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Images);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Music = new DefaultMutableTreeNode("Mi Musica");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mi Musica")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Music.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Music);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Calendar = new DefaultMutableTreeNode("Mi Calendario");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mi Calendario")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Calendar.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Calendar);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Messages = new DefaultMutableTreeNode("Mis Mensajes");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Mensajes")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Messages.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Messages);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Mail = new DefaultMutableTreeNode("Mi Correo");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Mail.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Mail);
+                //raiz.add(nodoZ);
                 usersNodes.add(nodoZ);
                 raiz.add(usersNodes);
             }
@@ -2545,6 +2708,7 @@ public class LogInFrame extends javax.swing.JFrame {
         detallesTarea.dispose();
     }//GEN-LAST:event_jButton15MouseClicked
 
+
     private void jb_limpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_limpiarMouseClicked
         tp_texto.setText("");
     }//GEN-LAST:event_jb_limpiarMouseClicked
@@ -2660,6 +2824,250 @@ public class LogInFrame extends javax.swing.JFrame {
         Indentado();
     }//GEN-LAST:event_jb_rightMouseClicked
 
+    private void jButton16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton16MouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) jt_tablaLeerMensajes.getModel();
+        modeloTabla.setRowCount(0);
+        ta_leerMensajeDetalle.setText("");
+    }//GEN-LAST:event_jButton16MouseClicked
+
+    private void jt_tablaLeerMensajesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_tablaLeerMensajesMouseClicked
+        if (jt_tablaLeerMensajes.getSelectedRow() >= 0) {
+            ta_leerMensajeDetalle.setText("");
+            ta_leerMensajeDetalle.setText(jt_tablaLeerMensajes.getValueAt(jt_tablaLeerMensajes.getSelectedRow(), 1).toString());
+        }
+    }//GEN-LAST:event_jt_tablaLeerMensajesMouseClicked
+
+    private void ta_workspaceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ta_workspaceKeyTyped
+        /*if (evt.getKeyCode() == KeyEvent.VK_0) {
+         System.out.println("HERE"); //For sanity check.
+         ta_workspace.setText("BUTTON PRESSED");
+         System.out.println("HERE AGAIN"); //For sanity check
+         }else{
+         System.out.println("nay");
+         }*/
+    }//GEN-LAST:event_ta_workspaceKeyTyped
+
+    private void jButton17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton17MouseClicked
+        ArrayList<String> directoriesArrayList = new ArrayList();
+        String completeCommand = "";
+        String[] command;
+        String argument = "";
+        String fullArgument = "";
+        if (ta_workspace.getText().contains(":")) {
+            command = ta_workspace.getText().split(":");
+            completeCommand = command[1];
+            if (command[1].contains(" ")) {
+                String[] completeArgument = command[1].split(" ");
+                if (completeArgument.length > 2) {
+                    for (int i = 1; i < completeArgument.length; i++) {
+                        fullArgument += completeArgument[i] + " ";
+                    }
+                    argument = fullArgument;
+                } else {
+                    fullArgument = command[1].split(" ")[1];
+                    argument = command[1].split(" ")[1];
+                }
+
+                //argument = command[1].split(" ")[1];
+            }
+            switch (completeCommand.split(" ")[0]) {
+                case "mkdir":
+                    //currentUser.getFolderslist().add(new FolderClass(currentUser.getName(), argument));
+
+                    ArrayList<User> usersList = new ArrayList();
+                    try {
+                        User temp;
+                        if (usersFile.exists()) {
+                            try {
+                                entrada = new FileInputStream(usersFile);
+                                objeto = new ObjectInputStream(entrada);
+                                while ((temp = (User) objeto.readObject()) != null) {
+                                    usersList.add(temp);
+                                }
+                            } catch (EOFException e) {
+                                //econtro el final del archivo
+                            } finally {
+                                objeto.close();
+                                entrada.close();
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                        if (folder.getName().equals(currentUser.getFolderslist().get(i).getName())) {
+                            currentUser.getFolderslist().get(i).addFolder(new FolderClass(currentUser.getName(), argument));
+                        }
+                    }
+                    for (int i = 0; i < usersList.size(); i++) {
+                        if (usersList.get(i).getName().equals(currentUser.getName())) {
+                            usersList.get(i).setFolderslist(currentUser.getFolderslist());
+
+                        }
+                    }
+
+                    try {
+                        fw = new FileOutputStream(usersFile);
+                        bw = new ObjectOutputStream(fw);
+                        for (int i = 0; i < usersList.size(); i++) {
+                            bw.writeObject(usersList.get(i));
+                            bw.flush();
+                        }
+                    } catch (Exception e) {
+                    } finally {
+                        try {
+                            bw.close();
+                            fw.close();
+                        } catch (Exception e) {
+                        }
+                    }
+
+                    JOptionPane.showMessageDialog(this, "se ha agregado una nueva carpeta!");
+                    ta_workspace.setText(currentUser.getName() + " @Z:");
+                    break;
+                case "rm":
+                    for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                        for (int j = 0; j < currentUser.getFolderslist().get(i).getFoldersList().size(); j++) {
+                            if (currentUser.getFolderslist().get(i).getFoldersList().get(j).getName().equals(argument)) {
+                                currentUser.getFolderslist().get(i).getFoldersList().remove(currentUser.getFolderslist().get(i).getFoldersList().get(j));
+                            }
+                        }
+                        if (currentUser.getFolderslist().get(i).getName().equals(argument)) {
+                            currentUser.getFolderslist().remove(currentUser.getFolderslist().get(i));
+                        }
+                    }
+
+                    ArrayList<User> usersList2 = new ArrayList();
+                    try {
+                        User temp;
+                        if (usersFile.exists()) {
+                            try {
+                                entrada = new FileInputStream(usersFile);
+                                objeto = new ObjectInputStream(entrada);
+                                while ((temp = (User) objeto.readObject()) != null) {
+                                    usersList2.add(temp);
+                                }
+                            } catch (EOFException e) {
+                                //econtro el final del archivo
+                            } finally {
+                                objeto.close();
+                                entrada.close();
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < usersList2.size(); i++) {
+                        if (usersList2.get(i).getName().equals(currentUser.getName())) {
+                            usersList2.get(i).setFolderslist(currentUser.getFolderslist());
+                        }
+                    }
+
+                    try {
+                        fw = new FileOutputStream(usersFile);
+                        bw = new ObjectOutputStream(fw);
+                        for (int i = 0; i < usersList2.size(); i++) {
+                            bw.writeObject(usersList2.get(i));
+                            bw.flush();
+                        }
+                    } catch (Exception e) {
+                    } finally {
+                        try {
+                            bw.close();
+                            fw.close();
+                            JOptionPane.showMessageDialog(this, "Se ha eliminado la carpeta exitosamente!");
+                        } catch (Exception e) {
+                        }
+                    }
+                    ta_workspace.setText(currentUser.getName() + " @Z:");
+                    break;
+                case "cd":
+                    if (argument.equals("..")) {
+                        for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                            for (int j = 0; j < currentUser.getFolderslist().get(i).getFoldersList().size(); j++) {
+                                if (folder.getName().equals(currentUser.getFolderslist().get(i).getFoldersList().get(j).getName())) {
+                                    folder = currentUser.getFolderslist().get(i);
+                                    tf_carpetaActual.setText(folder.getName());
+                                    ta_workspace.setText(currentUser.getName() + " @" + folder.getName() + ":");
+                                }
+                            }
+                            if (folder.getName().equals(currentUser.getFolderslist().get(i).getName())) {
+                                folder = currentUser.getFolderslist().get(i);
+                                tf_carpetaActual.setText(folder.getName());
+                                ta_workspace.setText(currentUser.getName() + " @" + folder.getName() + ":");
+                            }
+                        }
+                    } else {
+                        System.out.println(fullArgument + "--");
+                        for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                            System.out.println(currentUser.getFolderslist().get(i).getName());
+                            if (fullArgument.trim().equals(currentUser.getFolderslist().get(i).getName())) {
+                                System.out.println("match!");
+                                tf_carpetaActual.setText(currentUser.getFolderslist().get(i).getName());
+                                fullPath += (currentUser.getFolderslist().get(i).getName() + "/");
+                                folder = currentUser.getFolderslist().get(i);
+                            }
+                            for (int j = 0; j < currentUser.getFolderslist().get(i).getFoldersList().size(); j++) {
+                                if (fullArgument.trim().equals(currentUser.getFolderslist().get(i).getFoldersList().get(j).getName())) {
+                                    System.out.println("match!");
+                                    tf_carpetaActual.setText(currentUser.getFolderslist().get(i).getFoldersList().get(j).getName());
+                                    fullPath += (currentUser.getFolderslist().get(i).getName() + "/");
+                                    folder = currentUser.getFolderslist().get(i).getFoldersList().get(j);
+                                }
+                            }
+                        }
+                        System.out.println("fullPath: " + fullPath);
+                        String originalText = ta_workspace.getText();
+                        ta_workspace.setText(currentUser.getName() + " @" + folder.getName() + ":");
+                    }
+                    break;
+                case "dir":
+                    String folders = "Contenido de la carpeta " + folder.getName() + ":\n";
+                    for (int i = 0; i < folder.getFoldersList().size(); i++) {
+                        folders += "Carpeta: " + folder.getFoldersList().get(i).getName() + "\n";
+                    }
+                    for (int j = 0; j < folder.getFilesList().size(); j++) {
+                        folders += "Archivo: " + folder.getFilesList().get(j).getName() + "\n";
+                    }
+
+                    JOptionPane.showMessageDialog(this, folders);
+                    break;
+                case "date":
+                    // System.out.println("\nLa fecha es: " + new Date());
+                    String consoleText = "La fecha es: " + new Date().toString();
+                    JOptionPane.showMessageDialog(this, consoleText);
+                    ta_workspace.setText(currentUser.getName() + " @Z:");
+                    //System.out.println(ta_workspace.getText());
+                    //ta_workspace.update(ta_workspace.getGraphics());
+                    break;
+                case "time":
+                    Date fecha = new Date();
+                    String dateText = "La hora es: " + fecha.getHours() + " hrs : " + fecha.getMinutes() + " minutos";
+                    JOptionPane.showMessageDialog(this, dateText);
+                    ta_workspace.setText(currentUser.getName() + " @Z:");
+                    break;
+
+            }
+        } else if (ta_workspace.getText().contains("/")) {
+            String[] directories = ta_workspace.getText().split("/");
+            String[] firstDirectory = directories[0].split("@");
+            String actualFirstDirectory = firstDirectory[1];
+            directoriesArrayList.add(actualFirstDirectory);
+            for (int i = 0; i < directories.length; i++) {
+                directoriesArrayList.add(directories[i]);
+            }
+        }
+
+
+    }//GEN-LAST:event_jButton17MouseClicked
+
+    private void jb_editorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_editorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jb_editorActionPerformed
+
+
     /**
      * @param args the command line arguments
      */
@@ -2709,6 +3117,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox cb_recordarme;
     private javax.swing.JComboBox<String> cb_size;
     private javax.swing.JComboBox<String> cb_usuarios;
+    private javax.swing.JDialog consola;
     private javax.swing.JTextField destino_txt;
     private javax.swing.JDialog detallesEvento;
     private javax.swing.JDialog detallesTarea;
@@ -2719,6 +3128,8 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2752,6 +3163,9 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2765,7 +3179,12 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2775,6 +3194,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JButton jb_anterior;
     private javax.swing.JButton jb_bold;
     private javax.swing.JButton jb_cargar;
@@ -2808,14 +3228,18 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JTable jt_songDisplay;
     private javax.swing.JTable jt_tablaActividades;
     private javax.swing.JTable jt_tablaDetallesNotas;
+    private javax.swing.JTable jt_tablaLeerMensajes;
     private javax.swing.JButton justified;
     private javax.swing.JProgressBar pb_songLength;
     private javax.swing.JPasswordField pf_password;
     private javax.swing.JPasswordField pf_passwordCreated;
     private javax.swing.JTextArea ta_contenidoTarea;
     private javax.swing.JTextArea ta_detallesContenidoNota;
+    private javax.swing.JTextArea ta_leerMensajeDetalle;
     private javax.swing.JTextArea ta_mensaje;
     private javax.swing.JTextArea ta_nota;
+    private javax.swing.JTextArea ta_workspace;
+    private javax.swing.JTextField tf_carpetaActual;
     private javax.swing.JTextField tf_detallesHoraFin;
     private javax.swing.JTextField tf_detallesHoraInicio;
     public static javax.swing.JTextField tf_songName;
@@ -2848,6 +3272,9 @@ public class LogInFrame extends javax.swing.JFrame {
 
     File musicFolder = new File(".//src//songsList");
     File[] songs;
+
+    String fullPath = "";
+    FolderClass folder = null;
 
     boolean hasPaused = false;
     int selectedRow;
