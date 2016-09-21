@@ -5,6 +5,7 @@
  */
 package proyecto;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -17,11 +18,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -37,6 +40,12 @@ import javax.swing.JProgressBar;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javazoom.jl.decoder.JavaLayerException;
@@ -68,7 +77,6 @@ public class LogInFrame extends javax.swing.JFrame {
         }
 
         songs = new File[musicFolder.listFiles().length];
-        musicFolder = new File(".//src//songsList");
         for (int i = 0; i < musicFolder.listFiles().length; i++) {
             songs[i] = musicFolder.listFiles()[i];
         }
@@ -130,6 +138,21 @@ public class LogInFrame extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         Editor = new javax.swing.JDialog();
+        jb_limpiar = new javax.swing.JButton();
+        jb_salvar = new javax.swing.JButton();
+        jb_cargar = new javax.swing.JButton();
+        jb_salir = new javax.swing.JButton();
+        destino_txt = new javax.swing.JTextField();
+        jb_under = new javax.swing.JButton();
+        jb_bold = new javax.swing.JButton();
+        jb_italics = new javax.swing.JButton();
+        jb_left = new javax.swing.JButton();
+        justified = new javax.swing.JButton();
+        jb_right = new javax.swing.JButton();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tp_texto = new javax.swing.JTextPane();
+        cb_size = new javax.swing.JComboBox<>();
+        cb_font = new javax.swing.JComboBox<>();
         visorImagenes = new javax.swing.JDialog();
         ImageViewer = new javax.swing.JLabel();
         jb_anterior = new javax.swing.JButton();
@@ -180,7 +203,7 @@ public class LogInFrame extends javax.swing.JFrame {
         Mensajero = new javax.swing.JDialog();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        cb_usuarios = new javax.swing.JComboBox<String>();
+        cb_usuarios = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ta_mensaje = new javax.swing.JTextArea();
@@ -188,7 +211,7 @@ public class LogInFrame extends javax.swing.JFrame {
         Documents = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_fileSystem = new javax.swing.JTree();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         detallesEvento = new javax.swing.JDialog();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -218,9 +241,9 @@ public class LogInFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
+        Desktop.setTitle("Desktop");
         Desktop.setIconImage(null);
         Desktop.setIconImages(null);
 
@@ -347,6 +370,7 @@ public class LogInFrame extends javax.swing.JFrame {
         );
 
         CreateUser.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        CreateUser.setTitle("Crear Usuario");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -452,16 +476,155 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addGap(140, 140, 140))
         );
 
+        Editor.setTitle("Editor de Texto");
+
+        jb_limpiar.setText("Limpiar");
+        jb_limpiar.setToolTipText("Limpiar documento actual");
+        jb_limpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_limpiarMouseClicked(evt);
+            }
+        });
+
+        jb_salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/save.png"))); // NOI18N
+        jb_salvar.setToolTipText("Salvar Documento");
+        jb_salvar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_salvarMouseClicked(evt);
+            }
+        });
+
+        jb_cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/load.png"))); // NOI18N
+        jb_cargar.setToolTipText("Cargar un documento existente");
+        jb_cargar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_cargarMouseClicked(evt);
+            }
+        });
+
+        jb_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/salir.png"))); // NOI18N
+        jb_salir.setToolTipText("Salir de Editor");
+        jb_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_salirMouseClicked(evt);
+            }
+        });
+
+        jb_under.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/underline.png"))); // NOI18N
+
+        jb_bold.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/bold.png"))); // NOI18N
+        jb_bold.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_boldMouseClicked(evt);
+            }
+        });
+
+        jb_italics.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/italics.png"))); // NOI18N
+
+        jb_left.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/left.png"))); // NOI18N
+        jb_left.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_leftMouseClicked(evt);
+            }
+        });
+
+        justified.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/center.png"))); // NOI18N
+        justified.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                justifiedMouseClicked(evt);
+            }
+        });
+
+        jb_right.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TaskBarIcons/right.png"))); // NOI18N
+        jb_right.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_rightMouseClicked(evt);
+            }
+        });
+
+        jScrollPane9.setViewportView(tp_texto);
+
+        cb_size.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "12", "14", "16", "18", "22", "24", "26", "36", "48", "72" }));
+        cb_size.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cb_sizeMouseClicked(evt);
+            }
+        });
+
+        cb_font.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Calibri", "Times New Roman", "Algerian", "Impact", "Britannic Bold", "Castellar" }));
+        cb_font.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cb_fontMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout EditorLayout = new javax.swing.GroupLayout(Editor.getContentPane());
         Editor.getContentPane().setLayout(EditorLayout);
         EditorLayout.setHorizontalGroup(
             EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EditorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane9)
+                    .addGroup(EditorLayout.createSequentialGroup()
+                        .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jb_limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jb_bold, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jb_italics, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jb_salvar, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jb_cargar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                            .addComponent(jb_under, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cb_size, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jb_salir, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(EditorLayout.createSequentialGroup()
+                                .addComponent(destino_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(EditorLayout.createSequentialGroup()
+                                .addComponent(cb_font, 0, 202, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jb_left)
+                                .addGap(40, 40, 40)
+                                .addComponent(justified)
+                                .addGap(35, 35, 35)))
+                        .addComponent(jb_right)))
+                .addGap(73, 73, 73))
         );
         EditorLayout.setVerticalGroup(
             EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(EditorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jb_cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jb_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(destino_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jb_limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jb_salvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(EditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jb_italics, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jb_left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(justified, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jb_right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jb_bold, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jb_under, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cb_font)
+                    .addComponent(cb_size))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
+
+        visorImagenes.setTitle("Visor de Imagenes");
 
         ImageViewer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ImageViewer.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
@@ -506,6 +669,8 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addGap(47, 47, 47))
         );
 
+        Consola.setTitle("Consola de Comandos");
+
         javax.swing.GroupLayout ConsolaLayout = new javax.swing.GroupLayout(Consola.getContentPane());
         Consola.getContentPane().setLayout(ConsolaLayout);
         ConsolaLayout.setHorizontalGroup(
@@ -516,6 +681,8 @@ public class LogInFrame extends javax.swing.JFrame {
             ConsolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
+
+        MusicPlayer.setTitle("Reproductor de Musica\n");
 
         pb_songLength.setString(Integer.toString(pb_songLength.getValue()));
         pb_songLength.setStringPainted(true);
@@ -656,6 +823,8 @@ public class LogInFrame extends javax.swing.JFrame {
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(97, Short.MAX_VALUE))
         );
+
+        Calendario.setTitle("Calendario/Agenda");
 
         jLabel16.setText("Seleccione la fecha para la cual desea crear una actividad");
 
@@ -914,6 +1083,8 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addGap(158, 158, 158))
         );
 
+        Mensajero.setTitle("Mensajero\n");
+
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Mensajeria");
 
@@ -979,6 +1150,8 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
+        Documents.setTitle("File System");
+
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         jt_fileSystem.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane1.setViewportView(jt_fileSystem);
@@ -1000,15 +1173,21 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        detallesEvento.setTitle("Eventos");
 
         jLabel22.setText("Detalles del Evento");
 
         jLabel23.setText("Hora de Inicio:");
 
+        tf_detallesHoraInicio.setEditable(false);
+
         jLabel24.setText("hrs");
 
         jLabel25.setText("Hora de Fin:");
+
+        tf_detallesHoraFin.setEditable(false);
 
         jLabel26.setText("hrs");
 
@@ -1068,6 +1247,8 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addComponent(jButton14)
                 .addContainerGap())
         );
+
+        detallesTarea.setTitle("Tareas\n");
 
         jLabel27.setText("Detalles de la Tarea");
 
@@ -1163,6 +1344,7 @@ public class LogInFrame extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Log on to Windows");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("User Name: ");
@@ -1240,8 +1422,6 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Log on to Windows");
-        jMenuBar1.add(jMenu1);
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -1623,7 +1803,7 @@ public class LogInFrame extends javax.swing.JFrame {
                 if (messagesList.get(i).getUsusarioDestino().equals(myMessages.get(j).getUsusarioDestino())) {
                     if (messagesList.get(i).getAutor().equals(myMessages.get(j).getAutor())) {
                         if (messagesList.get(i).getMensaje().equals(myMessages.get(j).getMensaje())) {
-                            System.out.println("Se encontro un par!!!!");
+                            //System.out.println("Se encontro un par!!!!");
                             messagesList.remove(i);
                             messagesList.add(myMessages.get(j));
                         }
@@ -2365,6 +2545,121 @@ public class LogInFrame extends javax.swing.JFrame {
         detallesTarea.dispose();
     }//GEN-LAST:event_jButton15MouseClicked
 
+    private void jb_limpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_limpiarMouseClicked
+        tp_texto.setText("");
+    }//GEN-LAST:event_jb_limpiarMouseClicked
+
+    private void jb_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_salirMouseClicked
+        Editor.dispose();
+        tp_texto.setText("");
+    }//GEN-LAST:event_jb_salirMouseClicked
+
+    private void jb_salvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_salvarMouseClicked
+        JFileChooser escoger = new JFileChooser();
+        int escogido = escoger.showSaveDialog(this);
+        if (escogido == JFileChooser.APPROVE_OPTION) {
+            try {
+                PrintWriter textoGuardado = new PrintWriter(escoger.getSelectedFile());
+                textoGuardado.print(tp_texto.getText());
+                textoGuardado.close();
+                destino_txt.setText("Guardado " + escoger.getSelectedFile().getAbsolutePath());
+            } catch (FileNotFoundException ex) {
+            }
+        }
+    }//GEN-LAST:event_jb_salvarMouseClicked
+
+    private void jb_boldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_boldMouseClicked
+        StyledDocument documento = tp_texto.getStyledDocument();
+
+        Style estilo = tp_texto.addStyle("miEstilo", null);
+
+        if (jb_bold.isSelected()) {
+            StyleConstants.setBold(estilo, true);
+        } else {
+            StyleConstants.setBold(estilo, false);
+        }
+        documento.setCharacterAttributes(tp_texto.getSelectionStart(), tp_texto.getSelectionEnd() - tp_texto.getSelectionStart(), estilo, true);
+    }//GEN-LAST:event_jb_boldMouseClicked
+
+    private void jb_cargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_cargarMouseClicked
+        JFileChooser escogido = new JFileChooser();
+        int archivoEscogido = escogido.showSaveDialog(this);
+        if (archivoEscogido == JFileChooser.APPROVE_OPTION) {
+            try {
+                Scanner lectura = new Scanner(escogido.getSelectedFile());
+                String buffer = "";
+                while (lectura.hasNext()) {
+                    buffer += lectura.nextLine() + "\n";
+                }
+                tp_texto.setText(buffer);
+                lectura.close();
+                destino_txt.setText("Cargado " + escogido.getSelectedFile().getAbsolutePath());
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(this, "Archivo txt no existe");
+            }
+        }
+    }//GEN-LAST:event_jb_cargarMouseClicked
+
+    private void cb_sizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cb_sizeMouseClicked
+        String tamanios;
+        int indice = 0, seleccion = 0;
+        tamanios = (String) cb_size.getSelectedItem();
+        doc = tp_texto.getStyledDocument();
+        for (int i = tp_texto.getSelectionStart(); i < tp_texto.getSelectionEnd(); i++) {
+            seleccion = tp_texto.getSelectionStart() + indice;
+            Element elemento = documento.getCharacterElement(indice);
+            AttributeSet atributo = elemento.getAttributes();
+            color = StyleConstants.getForeground(atributo);
+            wordFont = StyleConstants.getFontFamily(atributo);
+            isBold = StyleConstants.isBold(atributo);
+            isItalics = StyleConstants.isItalic(atributo);
+            isUnderline = StyleConstants.isUnderline(atributo);
+            size = Integer.parseInt(tamanios);
+            selectedMode(seleccion);
+            indice++;
+        }
+
+    }//GEN-LAST:event_cb_sizeMouseClicked
+
+    private void cb_fontMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cb_fontMouseClicked
+        wordFont = (String) cb_font.getSelectedItem();
+        documento = tp_texto.getStyledDocument();
+        int indice = 0, seleccion = 0;
+        for (int i = tp_texto.getSelectionStart(); i < tp_texto.getSelectionEnd(); i++) {
+            seleccion = tp_texto.getSelectionStart() + indice;
+            Element element = documento.getCharacterElement(indice);
+            AttributeSet atributo = element.getAttributes();
+            color = StyleConstants.getForeground(atributo);
+            isBold = StyleConstants.isBold(atributo);
+            isItalics = StyleConstants.isItalic(atributo);
+            isUnderline = StyleConstants.isUnderline(atributo);
+            size = StyleConstants.getFontSize(atributo);
+            selectedMode(seleccion);
+            indice++;
+        }
+    }//GEN-LAST:event_cb_fontMouseClicked
+
+    private void jb_leftMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_leftMouseClicked
+        isLeft = true;
+        isCenter = false;
+        isRight = false;
+        Indentado();
+    }//GEN-LAST:event_jb_leftMouseClicked
+
+    private void justifiedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_justifiedMouseClicked
+        isLeft = false;
+        isCenter = true;
+        isRight = false;
+        Indentado();
+    }//GEN-LAST:event_justifiedMouseClicked
+
+    private void jb_rightMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_rightMouseClicked
+        isLeft = false;
+        isCenter = false;
+        isRight = true;
+        Indentado();
+    }//GEN-LAST:event_jb_rightMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2410,8 +2705,11 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel ImageViewer;
     private javax.swing.JDialog Mensajero;
     private javax.swing.JDialog MusicPlayer;
+    private javax.swing.JComboBox<String> cb_font;
     private javax.swing.JCheckBox cb_recordarme;
+    private javax.swing.JComboBox<String> cb_size;
     private javax.swing.JComboBox<String> cb_usuarios;
+    private javax.swing.JTextField destino_txt;
     private javax.swing.JDialog detallesEvento;
     private javax.swing.JDialog detallesTarea;
     private javax.swing.JButton jButton1;
@@ -2460,7 +2758,6 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
@@ -2476,19 +2773,29 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jb_anterior;
+    private javax.swing.JButton jb_bold;
+    private javax.swing.JButton jb_cargar;
     private javax.swing.JButton jb_cmd;
     private javax.swing.JButton jb_crear;
     private javax.swing.JButton jb_documents;
     private javax.swing.JButton jb_editor;
     private javax.swing.JButton jb_exit;
+    private javax.swing.JButton jb_italics;
+    private javax.swing.JButton jb_left;
+    private javax.swing.JButton jb_limpiar;
     private javax.swing.JButton jb_logIn;
     private javax.swing.JButton jb_next;
     private javax.swing.JButton jb_pause;
     private javax.swing.JButton jb_play;
     private javax.swing.JButton jb_player;
+    private javax.swing.JButton jb_right;
+    private javax.swing.JButton jb_salir;
+    private javax.swing.JButton jb_salvar;
     private javax.swing.JButton jb_stop;
+    private javax.swing.JButton jb_under;
     private javax.swing.JButton jb_userCreated;
     private javax.swing.JButton jb_visor;
     private com.toedter.calendar.JCalendar jc_calendario;
@@ -2501,6 +2808,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JTable jt_songDisplay;
     private javax.swing.JTable jt_tablaActividades;
     private javax.swing.JTable jt_tablaDetallesNotas;
+    private javax.swing.JButton justified;
     private javax.swing.JProgressBar pb_songLength;
     private javax.swing.JPasswordField pf_password;
     private javax.swing.JPasswordField pf_passwordCreated;
@@ -2514,6 +2822,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JTextField tf_tituloActividad;
     private javax.swing.JTextField tf_user;
     private javax.swing.JTextField tf_userCreated;
+    private javax.swing.JTextPane tp_texto;
     private javax.swing.JDialog visorImagenes;
     // End of variables declaration//GEN-END:variables
 
@@ -2536,6 +2845,7 @@ public class LogInFrame extends javax.swing.JFrame {
     Icon[] imagen = new ImageIcon[10];
     int contadorImagenes = 0;
     int contador = 1;
+
     File musicFolder = new File(".//src//songsList");
     File[] songs;
 
@@ -2550,11 +2860,51 @@ public class LogInFrame extends javax.swing.JFrame {
     ArrayList<String> notas = new ArrayList();
     Actividad actividad;
 
+    Document doc;
+    String wordFont;
+    boolean isBold = false;
+    boolean isItalics = false;
+    boolean isUnderline = false;
+    int size = 10;
+    Color color = Color.BLACK;
+    StyledDocument documento;
+    boolean isCenter;
+    boolean isRight;
+    boolean isLeft;
+
     public void openDialog(JDialog Dialog) {
 
         Dialog.setModal(true);
         Dialog.setLocationRelativeTo(this);
         Dialog.pack();
         Dialog.setVisible(true);
+    }
+
+    void selectedMode(int seleccionado) {
+        documento = tp_texto.getStyledDocument();
+        Style estilo = tp_texto.addStyle("miEstilo", null);
+        StyleConstants.setForeground(estilo, color);
+        StyleConstants.setFontFamily(estilo, wordFont);
+        StyleConstants.setFontSize(estilo, size);
+        StyleConstants.setBold(estilo, isBold);
+        StyleConstants.setItalic(estilo, isItalics);
+        StyleConstants.setUnderline(estilo, isUnderline);
+        documento.setCharacterAttributes(seleccionado, 1, tp_texto.getStyle("miEstilo"), true);
+        doc = tp_texto.getStyledDocument();
+    }
+
+    void Indentado() {
+        documento = tp_texto.getStyledDocument();
+        Style estilo = tp_texto.addStyle("miEstilo", null);
+        if (isLeft) {
+            StyleConstants.setAlignment(estilo, StyleConstants.ALIGN_LEFT);
+            documento.setParagraphAttributes(tp_texto.getSelectionStart(), tp_texto.getSelectionEnd() - tp_texto.getSelectionStart(), tp_texto.getStyle("miEstilo"), true);
+        } else if (isCenter) {
+            StyleConstants.setAlignment(estilo, StyleConstants.ALIGN_CENTER);
+            documento.setParagraphAttributes(tp_texto.getSelectionStart(), tp_texto.getSelectionEnd() - tp_texto.getSelectionStart(), tp_texto.getStyle("miEstilo"), true);
+        } else if (isRight) {
+            StyleConstants.setAlignment(estilo, StyleConstants.ALIGN_RIGHT);
+            documento.setParagraphAttributes(tp_texto.getSelectionStart(), tp_texto.getSelectionEnd() - tp_texto.getSelectionStart(), tp_texto.getStyle("miEstilo"), true);
+        }
     }
 }
