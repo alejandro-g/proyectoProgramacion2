@@ -5,6 +5,7 @@
  */
 package proyecto;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -55,6 +56,7 @@ public class LogInFrame extends javax.swing.JFrame {
      */
     public LogInFrame() {
         initComponents();
+        tf_carpetaActual.setText("Mis Documentos");
         js_recordatorio.setVisible(false);
         cb_recordarme.setSelected(false);
         jl_minutosAntes.setVisible(false);
@@ -266,6 +268,8 @@ public class LogInFrame extends javax.swing.JFrame {
         jScrollPane11 = new javax.swing.JScrollPane();
         ta_workspace = new javax.swing.JTextArea();
         jButton17 = new javax.swing.JButton();
+        jLabel33 = new javax.swing.JLabel();
+        tf_carpetaActual = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tf_user = new javax.swing.JTextField();
@@ -290,6 +294,11 @@ public class LogInFrame extends javax.swing.JFrame {
         jb_editor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jb_editorMouseClicked(evt);
+            }
+        });
+        jb_editor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jb_editorActionPerformed(evt);
             }
         });
 
@@ -1352,21 +1361,33 @@ public class LogInFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel33.setText("Carpeta Actual:");
+
         javax.swing.GroupLayout consolaLayout = new javax.swing.GroupLayout(consola.getContentPane());
         consola.getContentPane().setLayout(consolaLayout);
         consolaLayout.setHorizontalGroup(
             consolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane11)
+            .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, consolaLayout.createSequentialGroup()
-                .addContainerGap(318, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton17)
-                .addGap(271, 271, 271))
+                .addGap(285, 285, 285))
+            .addGroup(consolaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tf_carpetaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         consolaLayout.setVerticalGroup(
             consolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(consolaLayout.createSequentialGroup()
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(consolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel33)
+                    .addComponent(tf_carpetaActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jButton17)
                 .addContainerGap())
         );
@@ -1527,6 +1548,7 @@ public class LogInFrame extends javax.swing.JFrame {
                                 if (temp.getPassword().equals(password)) {
                                     foundPassword = true;
                                     currentUser = temp;
+                                    folder = new FolderClass(currentUser.getName(), "Mis Documentos");
                                     JOptionPane.showMessageDialog(this, "Bienvenido " + user);
                                     //open desktop JDialog                      
                                     if (currentUser.getType().equalsIgnoreCase("normal")) {
@@ -1959,95 +1981,6 @@ public class LogInFrame extends javax.swing.JFrame {
             DefaultTreeModel m = (DefaultTreeModel) jt_fileSystem.getModel();
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) m.getRoot(); //siempre empieza a recorrer desde su nodo raiz, se hace para poder recorrerla
             DefaultMutableTreeNode nodoZ = new DefaultMutableTreeNode("Z:");
-            DefaultMutableTreeNode nodo_Documents = new DefaultMutableTreeNode("Mis Documentos");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Documentos")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Documents.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Documents);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Images = new DefaultMutableTreeNode("Mis Imagenes");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Imagenes")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Images.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Images);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Music = new DefaultMutableTreeNode("Mi Musica");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mi Musica")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Music.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Music);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Calendar = new DefaultMutableTreeNode("Mi Calendario");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mi Calendario")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Calendar.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Calendar);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Messages = new DefaultMutableTreeNode("Mis Mensajes");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Mensajes")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Messages.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Messages);
-            raiz.add(nodoZ);
-
-            DefaultMutableTreeNode nodo_Mail = new DefaultMutableTreeNode("Mi Correo");
-            for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
-                    ArrayList<File> files = new ArrayList();
-                    files = currentUser.getFolderslist().get(i).getFilesList();
-                    for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
-                        File currentFile = files.get(j);
-                        DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                        nodo_Mail.add(documentsFolderFileNode);
-                    }
-                }
-            }
-            nodoZ.add(nodo_Mail);
-            raiz.add(nodoZ);
 
             DefaultMutableTreeNode nodo_general = null;
             for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
@@ -2055,14 +1988,19 @@ public class LogInFrame extends javax.swing.JFrame {
                 //if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
                 ArrayList<File> files = new ArrayList();
                 files = currentUser.getFolderslist().get(i).getFilesList();
+                for (int j = 0; j < currentUser.getFolderslist().get(i).getFoldersList().size(); j++) {
+                    //File currentFile = files.get(j);
+                    DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(currentUser.getFolderslist().get(i).getFoldersList().get(j).getName());
+                    nodo_general.add(documentsFolderFileNode);
+                }
                 for (int j = 0; j < currentUser.getFolderslist().get(i).getFilesList().size(); j++) {
                     File currentFile = files.get(j);
                     DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
                     nodo_general.add(documentsFolderFileNode);
                 }
                 //}
+                nodoZ.add(nodo_general);
             }
-            nodoZ.add(nodo_general);
             raiz.add(nodoZ);
 
             m.reload();
@@ -2097,108 +2035,19 @@ public class LogInFrame extends javax.swing.JFrame {
             for (int k = 0; k < usersList.size(); k++) {
                 User user = usersList.get(k);
                 DefaultMutableTreeNode nodoZ = new DefaultMutableTreeNode(user.getName() + "-Z:");
-                DefaultMutableTreeNode nodo_Documents = new DefaultMutableTreeNode("Mis Documentos");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Documentos")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Documents.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Documents);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Images = new DefaultMutableTreeNode("Mis Imagenes");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Imagenes")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Images.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Images);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Music = new DefaultMutableTreeNode("Mi Musica");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mi Musica")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Music.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Music);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Calendar = new DefaultMutableTreeNode("Mi Calendario");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mi Calendario")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Calendar.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Calendar);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Messages = new DefaultMutableTreeNode("Mis Mensajes");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Mis Mensajes")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Messages.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Messages);
-                raiz.add(nodoZ);
-
-                DefaultMutableTreeNode nodo_Mail = new DefaultMutableTreeNode("Mi Correo");
-                for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    if (user.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
-                        ArrayList<File> files = new ArrayList();
-                        files = user.getFolderslist().get(i).getFilesList();
-                        for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
-                            File currentFile = files.get(j);
-                            DefaultMutableTreeNode documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
-                            nodo_Mail.add(documentsFolderFileNode);
-                        }
-                    }
-                }
-                nodoZ.add(nodo_Mail);
-                //usersNodes.add(nodoZ);
-                raiz.add(nodoZ);
-
                 DefaultMutableTreeNode nodo_general = null;
-                System.out.println("naaaaaame: " + user.getName());
-                System.out.println("size isssssss: " + user.getFolderslist().size());
                 for (int i = 0; i < user.getFolderslist().size(); i++) {
-                    System.out.println("go");
                     nodo_general = new DefaultMutableTreeNode(user.getFolderslist().get(i).getName());
                     //if (currentUser.getFolderslist().get(i).getName().equalsIgnoreCase("Envio de Correo")) {
                     ArrayList<File> files = new ArrayList();
                     files = user.getFolderslist().get(i).getFilesList();
                     DefaultMutableTreeNode documentsFolderFileNode = null;
                     if (user.getFolderslist().get(i).getFilesList().size() != 0) {
+                        for (int j = 0; j < user.getFolderslist().get(i).getFoldersList().size(); j++) {
+                            //File currentFile = files.get(j);
+                            DefaultMutableTreeNode documentsFolderFileNode2 = new DefaultMutableTreeNode(user.getFolderslist().get(i).getFoldersList().get(j).getName());
+                            nodo_general.add(documentsFolderFileNode2);
+                        }
                         for (int j = 0; j < user.getFolderslist().get(i).getFilesList().size(); j++) {
                             File currentFile = files.get(j);
                             documentsFolderFileNode = new DefaultMutableTreeNode(new File(currentFile.getName()));
@@ -2206,8 +2055,8 @@ public class LogInFrame extends javax.swing.JFrame {
                         }
                         //}
                     }
+                    nodoZ.add(nodo_general);
                 }
-                nodoZ.add(nodo_general);
                 //raiz.add(nodoZ);
                 usersNodes.add(nodoZ);
                 raiz.add(usersNodes);
@@ -2708,13 +2557,27 @@ public class LogInFrame extends javax.swing.JFrame {
         String completeCommand = "";
         String[] command;
         String argument = "";
+        String fullArgument = "";
         if (ta_workspace.getText().contains(":")) {
             command = ta_workspace.getText().split(":");
             completeCommand = command[1];
-            argument = command[1].split(" ")[1];
+            if (command[1].contains(" ")) {
+                String[] completeArgument = command[1].split(" ");
+                if (completeArgument.length > 2) {
+                    for (int i = 1; i < completeArgument.length; i++) {
+                        fullArgument += completeArgument[i] + " ";
+                    }
+                    argument = fullArgument;
+                } else {
+                    fullArgument = command[1].split(" ")[1];
+                    argument = command[1].split(" ")[1];
+                }
+
+                //argument = command[1].split(" ")[1];
+            }
             switch (completeCommand.split(" ")[0]) {
                 case "mkdir":
-                    currentUser.getFolderslist().add(new FolderClass(currentUser.getName(), argument));
+                    //currentUser.getFolderslist().add(new FolderClass(currentUser.getName(), argument));
 
                     ArrayList<User> usersList = new ArrayList();
                     try {
@@ -2737,9 +2600,15 @@ public class LogInFrame extends javax.swing.JFrame {
                         e.printStackTrace();
                     }
 
+                    for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                        if (folder.getName().equals(currentUser.getFolderslist().get(i).getName())) {
+                            currentUser.getFolderslist().get(i).addFolder(new FolderClass(currentUser.getName(), argument));
+                        }
+                    }
                     for (int i = 0; i < usersList.size(); i++) {
                         if (usersList.get(i).getName().equals(currentUser.getName())) {
                             usersList.get(i).setFolderslist(currentUser.getFolderslist());
+
                         }
                     }
 
@@ -2760,11 +2629,17 @@ public class LogInFrame extends javax.swing.JFrame {
                     }
 
                     JOptionPane.showMessageDialog(this, "se ha agregado una nueva carpeta!");
+                    ta_workspace.setText(currentUser.getName() + " @Z:");
                     break;
                 case "rm":
                     for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
-                        if(currentUser.getFolderslist().get(i).getName().equals(argument)){
-                           currentUser.getFolderslist().remove(currentUser.getFolderslist().get(i));
+                        for (int j = 0; j < currentUser.getFolderslist().get(i).getFoldersList().size(); j++) {
+                            if (currentUser.getFolderslist().get(i).getFoldersList().get(j).getName().equals(argument)) {
+                                currentUser.getFolderslist().get(i).getFoldersList().remove(currentUser.getFolderslist().get(i).getFoldersList().get(j));
+                            }
+                        }
+                        if (currentUser.getFolderslist().get(i).getName().equals(argument)) {
+                            currentUser.getFolderslist().remove(currentUser.getFolderslist().get(i));
                         }
                     }
 
@@ -2807,17 +2682,76 @@ public class LogInFrame extends javax.swing.JFrame {
                         try {
                             bw.close();
                             fw.close();
+                            JOptionPane.showMessageDialog(this, "Se ha eliminado la carpeta exitosamente!");
                         } catch (Exception e) {
                         }
                     }
+                    ta_workspace.setText(currentUser.getName() + " @Z:");
                     break;
                 case "cd":
+                    if (argument.equals("..")) {
+                        for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                            for (int j = 0; j < currentUser.getFolderslist().get(i).getFoldersList().size(); j++) {
+                                if (folder.getName().equals(currentUser.getFolderslist().get(i).getFoldersList().get(j).getName())) {
+                                    folder = currentUser.getFolderslist().get(i);
+                                    tf_carpetaActual.setText(folder.getName());
+                                    ta_workspace.setText(currentUser.getName() + " @" + folder.getName() + ":");
+                                }
+                            }
+                            if (folder.getName().equals(currentUser.getFolderslist().get(i).getName())) {
+                                folder = currentUser.getFolderslist().get(i);
+                                tf_carpetaActual.setText(folder.getName());
+                                ta_workspace.setText(currentUser.getName() + " @" + folder.getName() + ":");
+                            }
+                        }
+                    } else {
+                        System.out.println(fullArgument + "--");
+                        for (int i = 0; i < currentUser.getFolderslist().size(); i++) {
+                            System.out.println(currentUser.getFolderslist().get(i).getName());
+                            if (fullArgument.trim().equals(currentUser.getFolderslist().get(i).getName())) {
+                                System.out.println("match!");
+                                tf_carpetaActual.setText(currentUser.getFolderslist().get(i).getName());
+                                fullPath += (currentUser.getFolderslist().get(i).getName() + "/");
+                                folder = currentUser.getFolderslist().get(i);
+                            }
+                            for (int j = 0; j < currentUser.getFolderslist().get(i).getFoldersList().size(); j++) {
+                                if (fullArgument.trim().equals(currentUser.getFolderslist().get(i).getFoldersList().get(j).getName())) {
+                                    System.out.println("match!");
+                                    tf_carpetaActual.setText(currentUser.getFolderslist().get(i).getFoldersList().get(j).getName());
+                                    fullPath += (currentUser.getFolderslist().get(i).getName() + "/");
+                                    folder = currentUser.getFolderslist().get(i).getFoldersList().get(j);
+                                }
+                            }
+                        }
+                        System.out.println("fullPath: " + fullPath);
+                        String originalText = ta_workspace.getText();
+                        ta_workspace.setText(currentUser.getName() + " @" + folder.getName() + ":");
+                    }
                     break;
                 case "dir":
+                    String folders = "Contenido de la carpeta " + folder.getName() + ":\n";
+                    for (int i = 0; i < folder.getFoldersList().size(); i++) {
+                        folders += "Carpeta: " + folder.getFoldersList().get(i).getName() + "\n";
+                    }
+                    for (int j = 0; j < folder.getFilesList().size(); j++) {
+                        folders += "Archivo: " + folder.getFilesList().get(j).getName() + "\n";
+                    }
+
+                    JOptionPane.showMessageDialog(this, folders);
                     break;
                 case "date":
+                    // System.out.println("\nLa fecha es: " + new Date());
+                    String consoleText = "La fecha es: " + new Date().toString();
+                    JOptionPane.showMessageDialog(this, consoleText);
+                    ta_workspace.setText(currentUser.getName() + " @Z:");
+                    //System.out.println(ta_workspace.getText());
+                    //ta_workspace.update(ta_workspace.getGraphics());
                     break;
                 case "time":
+                    Date fecha = new Date();
+                    String dateText = "La hora es: " + fecha.getHours() + " hrs : " + fecha.getMinutes() + " minutos";
+                    JOptionPane.showMessageDialog(this, dateText);
+                    ta_workspace.setText(currentUser.getName() + " @Z:");
                     break;
 
             }
@@ -2831,9 +2765,12 @@ public class LogInFrame extends javax.swing.JFrame {
             }
         }
 
-        ta_workspace.setText("");
 
     }//GEN-LAST:event_jButton17MouseClicked
+
+    private void jb_editorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_editorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jb_editorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2929,6 +2866,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2992,6 +2930,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea ta_mensaje;
     private javax.swing.JTextArea ta_nota;
     private javax.swing.JTextArea ta_workspace;
+    private javax.swing.JTextField tf_carpetaActual;
     private javax.swing.JTextField tf_detallesHoraFin;
     private javax.swing.JTextField tf_detallesHoraInicio;
     public static javax.swing.JTextField tf_songName;
@@ -3022,6 +2961,9 @@ public class LogInFrame extends javax.swing.JFrame {
     int contador = 1;
     File musicFolder = new File(".//src//songsList");
     File[] songs;
+
+    String fullPath = "";
+    FolderClass folder = null;
 
     boolean hasPaused = false;
     int selectedRow;
